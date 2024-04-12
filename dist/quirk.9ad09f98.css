@@ -60,6 +60,10 @@ body {
 
 }
 
+/* /////////////////////
+        MAIN
+///////////////////// */
+
 #main #header {
   font-size: 45px;
   margin-left: 10%;
@@ -115,7 +119,53 @@ body {
   transition: all 0.5s ease-in-out;
 }
 
+/* /////////////////////
+        RESULTS
+///////////////////// */
 
+#results {
+}
+
+#results #input {
+  float: left;
+  margin: 35px;
+  width: 50%;
+}
+
+#results input {
+  height: 40px;
+  width: 30%;
+  padding-left: 20px;
+  border: 2px solid black;
+  font-size: 16px;
+}
+
+#results #search {
+  width: 70%;
+  float: left;
+  position: relative;
+  height: 40px;
+  border-radius: 3px;
+  border: 2px solid black;
+  margin-top: 15px;
+  cursor: pointer;
+
+  background: #5fb4b7;
+  color: #153031;
+  font-size: 17px;
+  transition: all 1s ease-in-out;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+#results #filters {
+  border: 1px solid black;
+  width: 35%;
+  height: 55vh;
+  margin-left: 35px;
+
+  position: relative;
+  top: 23vh;
+}
 
 
 

@@ -25,5 +25,9 @@ function search() {
 }
 
 function loadResults() {
-  
+  var main = document.getElementById("main");
+  var results = document.getElementById("results");
+
+  main.style.display = "none";
+  results.style.display = "block";
 }
