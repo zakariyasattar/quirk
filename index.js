@@ -1,4 +1,4 @@
-import zipcodes from './node_modules/zipcodes/lib/index.js';
+import zipcodes from 'zipcodes';
 
 console.log("hello");
 
