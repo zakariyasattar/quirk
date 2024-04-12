@@ -13,6 +13,6 @@ function search() {
     var treatment = document.getElementById("treatment").value;
     var zip_code = document.getElementById("zip-code").value;
 
-    var rad = zipcodes.radius(parseInt(zip_code), 50);
+    var rad = zipcodes.radius(parseInt(zip_code), 30);
     console.log(rad);
 }
