@@ -167,3 +167,166 @@ body {
   top: 23vh;
 }
 
+/* Dropdown Button */
+.dropbtn {
+ background-color: #04AA6D;
+ color: white;
+ padding: 16px;
+ font-size: 16px;
+ border: none;
+ cursor: pointer;
+}
+
+/* Dropdown button on hover & focus */
+.dropbtn:hover, .dropbtn:focus {
+ background-color: #3e8e41;
+}
+
+/* The search field */
+#myInput {
+ box-sizing: border-box;
+ background-position: 14px 12px;
+ background-repeat: no-repeat;
+ font-size: 16px;
+ padding: 14px 20px 12px 45px;
+ border: none;
+ border-bottom: 1px solid #ddd;
+}
+
+/* The search field when it gets focus/clicked on */
+#myInput:focus {
+  outline: 3px solid #ddd;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+ position: relative;
+ display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+ display: none;
+ position: absolute;
+ background-color: #f6f6f6;
+ min-width: 230px;
+ border: 1px solid #ddd;
+ z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+ color: black;
+ padding: 12px 16px;
+ text-decoration: none;
+ display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
+#results #plan {
+  position: relative;
+}
+
+#results #data {
+  width: 60%;
+  height: 80vh;
+  top: 20%;
+  right: 15px;
+  position: absolute;
+
+  float: right;
+}
+
+#results #data-header {
+  font-size: 45px;
+  position: relative;
+
+}
+
+#results #data {
+  margin-top: 20px;
+  overflow: auto;
+}
+
+.card {
+    border: 3px solid black;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    width: 75%; /* Adjust as needed */
+    margin-top: 10px;
+}
+
+.header {
+    display: flex;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    background: #fffffe;
+    padding: 15px;
+}
+
+.price-info {
+    text-align: right;
+}
+
+.hospital-name {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cash-price,
+.your-price {
+    display: block;
+    color: #333;
+}
+
+.your-price {
+    color: green;
+    font-weight: bold;
+}
+
+.service-info {
+    margin-bottom: 20px;
+}
+
+.service-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin: 0 0 10px 0;
+}
+
+.service-address {
+    margin: 0;
+    color: #666;
+}
+
+.distance {
+    display: block;
+    color: #333;
+    margin-top: 5px;
+    float: right;
+    margin-right: 10px;
+}
+
+.appointment-btn {
+    background-color: #eebbc3;
+    color: black;
+    border: none;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin-right: 35%;
+    margin-bottom: 30px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
