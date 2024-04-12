@@ -12,5 +12,8 @@
   "license": "ISC",
   "dependencies": {
     "zipcodes": "^8.0.0"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
   }
 }
