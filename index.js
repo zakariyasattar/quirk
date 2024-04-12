@@ -19,6 +19,7 @@ function search() {
     const dataloc = require('./public/data.csv');
     d3.csv(dataloc).then((data) => {
       const filteredData = data.filter(row => rad.includes(row.zip_code) && (row.service).indexOf(treatment) != -1);
+      console.log(filteredData);
 
       localStorage.setItem("filteredData", JSON.stringify(filteredData));
       loadResults()
@@ -49,10 +50,8 @@ function loadResults() {
       // }
       createResult(data[x]);
       console.log(data[x]);
-
     }
   }
-
   console.log(options);
 
   // localStorage.setItem("plans", JSON.stringify(plans));
