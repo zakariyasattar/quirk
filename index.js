@@ -25,8 +25,6 @@ function search() {
     })
 }
 
-loadResults();
-
 function loadResults() {
   var main = document.getElementById("main");
   var results = document.getElementById("results");
@@ -40,7 +38,7 @@ function loadResults() {
   for(var x in data) {
     addPlanOption(data[x].plan_raw);
 
-    if(data[x].plan_raw == localStorage.getItem("preferred_plan") || data[x].plan_raw == "Cash Price" ||  data[x].plan_raw == "List Price") {
+    if(data[x].plan_raw == localStorage.getItem("preferred_plan") || data[x].plan_raw == "Cash Price") {
       // if(options[data[x].provider + ";" + data[x].service] != null) {
       //   var priceOptions = options[data[x].provider + ";" + data[x].service];
       //   priceOptions.push(data[x].rate);
@@ -50,6 +48,7 @@ function loadResults() {
       //   options[data[x].provider + ";" + data[x].service] = [];
       // }
       createResult(data[x]);
+      console.log(data[x]);
 
     }
   }
