@@ -7,11 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jquery.terminal/css/jquery.terminal.min.css"/>
+    <script src="dist/bundle.js"></script>
 
     <link rel="stylesheet" type="text/css" href="index.css" />
     <script src="./index.js"></script>
-    <script src="jquery-3.2.1.min.js"></script>
 
     <title>Quirk Health</title>
     <link rel="icon" type="image/x-icon" href="./images/favicon.ico">
@@ -25,15 +24,15 @@
       <button id="sign-up">Sign Up</button>
     </div></center>
 
-    <center>
-      <div id="main">
-        <h3 id="header">Sift through prices and facilites <i>before</i> you get care.</h3>
-        <div id="input">
-          <img src="doc.png" alt="">
-          <input type="text" name="" value="">
-          <input type="text" name="" value="">
-        </div>
+    <div id="main">
+      <h3 id="header">Sift through prices and facilites <i>before</i> you get care.</h3>
+      <img src="windows.png" alt="" style="margin-left: 55px; position: relative; top: 3vh;">
+
+      <div id="input">
+        <center><input type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
+        <input type="text" id = "zip-code" name="" value="" placeholder="Zip Code">
+        <button id="search" onclick="search()">Search Options!</button></center>
       </div>
-    </center>
+    </div>
   </body>
 </html
