@@ -1,5 +1,3 @@
-if (typeof global === "undefined"){global=window;}
-
 import zipcodes from 'zipcodes';
 import Papa from 'papaparse';
 import axios from 'axios';
@@ -34,7 +32,6 @@ function parse(treatment, zips) {
   var blobToFile = function (blob, name) {
     blob.lastModifiedDate = new Date();
     blob.name = name;
-    blob.type = "text/csv";
     return blob;
   };
   var GetFileObjectFromURL = function(filePathOrUrl, convertBlob) {
@@ -43,7 +40,7 @@ function parse(treatment, zips) {
      });
   };
 
-  var FileURL = require('./static/data.csv');
+  var FileURL = require('./public/data.csv');
 
   var parsedData = [];
   var preferred_insurance;
