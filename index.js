@@ -58,6 +58,7 @@ function parse(treatment, zips) {
      Papa.parse(fileObject, {
        worker: true,
        step: function(results) {
+         console.log(results.data);
          var hospital_zip = results.data[indices.indexOf("zip_code")];
          var service = results.data[indices.indexOf("service")];
          var insurance = results.data[indices.indexOf("plan_raw")];
