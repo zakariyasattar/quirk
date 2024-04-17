@@ -34,6 +34,7 @@ function parse(treatment, zips) {
   var blobToFile = function (blob, name) {
     blob.lastModifiedDate = new Date();
     blob.name = name;
+    blob.type = "text/csv";
     return blob;
   };
   var GetFileObjectFromURL = function(filePathOrUrl, convertBlob) {
