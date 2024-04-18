@@ -1,7 +1,7 @@
 import zipcodes from 'zipcodes';
 import Papa from 'papaparse';
 import axios from 'axios';
-import * as d3 from 'd3';
+import * as datedreamer from "datedreamer";
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
@@ -165,9 +165,22 @@ function createResult(data) {
   appointmentBtn.className = 'appointment-btn';
   footer.className = 'footer';
 
+  var addInsurance = document.createElement('button');
+  addInsurance.textContent = "See Your Rate";
+  addInsurance.className = "add-insurance-button";
+  addInsurance.onclick = function() {
+    insurancePopUp();
+  }
+
   // Construct the card
   priceInfo.appendChild(cashPrice);
-  priceInfo.appendChild(yourPrice);
+
+  if(localStorage.getItem("preffered_plan")) {
+    priceInfo.appendChild(yourPrice);
+  }
+  else {
+    priceInfo.appendChild(addInsurance);
+  }
   header.appendChild(hospitalName);
   header.appendChild(priceInfo);
 
@@ -190,6 +203,47 @@ function makeAppointment(hospitalName, service) {
 
   var makeAppointmentDiv = document.getElementById("appointment");
   makeAppointmentDiv.style.display = "block";
+
+  var today = new Date();
+  var dd = String(today.getDate()).padStart(2, '0');
+  var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
+  var yyyy = today.getFullYear();
+
+  today = mm + '/' + dd + '/' + yyyy;
+
+  new datedreamer.calendar({
+    element: "#calendar",
+    // select date on init
+    selectedDate: today,
+    // date format
+    format: "MM/DD/YYYY",
+    // custom next/prev icons
+    iconNext: '',
+    iconPrev: '',
+    // set the label of the date input
+    inputLabel: 'Set a date',
+    // set the placeholder of the date input
+    inputPlaceholder: 'Enter a date',
+    // hide the input and today button
+    hideInputs: true,
+    // enable dark mode
+    darkMode: true,
+    // or 'lite-purple'
+    theme: 'unstyled',
+    // custom styles here
+    styles: `
+      button {
+        color: blue
+      }
+    `,
+    // callback
+    onChange: (e) => {
+      console.log(e.detail);
+    },
+    onRender: (e) => {
+      console.log(e.detail.calendar);
+    },
+  });
 }
 
 function addPlanOption(plan) {

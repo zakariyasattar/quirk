@@ -296,6 +296,28 @@ input {
     color: #333;
 }
 
+.add-insurance-button {
+  width: 105%;
+  padding: 2.5px 5px;
+  margin-top: 5px;
+  font-size: 15px;
+  text-align: center;
+  color: #232946;
+  border: 2px solid #232946;
+  border-radius: 5px;
+  background-color: transparent;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+
+  transition: .3s ease-in-out
+}
+
+.add-insurance-button:hover {
+  background: #232946;
+  color: white;
+}
+
 .your-price {
     color: green;
     font-weight: bold;
