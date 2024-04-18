@@ -4,7 +4,7 @@
   <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Space+Grotesk:wght@300..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sedan:ital@0;1&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
 
@@ -54,7 +54,7 @@
       <center><h1 style="margin-top: 50px;">Book Your Appointment</h1></center>
 
       <div id="user-data">
-        <span>Enter Your Information: </span>
+        <span class="appointment-header">Enter Your Information: </span>
         <input style="margin-top: 25px;" class="user-data-input" type="text" placeholder="First Name">
         <input class="user-data-input" type="text" placeholder="Last Name">
         <input class="user-data-input" type="text" placeholder="Phone Number">
@@ -62,15 +62,16 @@
       </div>
 
       <div id="appointment-availability">
-        <span>Availability for Monday, March 3</span>
-        <div class="">
-          <input type="checkbox" id="morning">Morning (8am - 12pm)
-          <input type="checkbox" id="afternoon">Afternoon (12pm - 5pm)
+        <div class="appointment-date-first">
+          <span class="appointment-header">Availability For Monday, March 3</span>
+          <div class="appointment-input-first" onclick="select-appointment"><input type="radio">Morning (8am - 12pm)</div>
+          <div class="appointment-input" onclick="select-appointment"><input type="radio">Afternoon (12pm - 5pm)</div>
         </div>
-        <span>Availability for Monday, March 10</span>
-        <div class="">
-          <input type="checkbox" id="morning">Morning (8am - 12pm)
-          <input type="checkbox" id="afternoon">Afternoon (12pm - 5pm)
+
+        <div class="appointment-date">
+          <span class="appointment-header">Availability For Monday, March 10</span>
+          <div class="appointment-input-first" onclick="select-appointment"><input type="radio">Morning (8am - 12pm)</div>
+          <div class="appointment-input" onclick="select-appointment"><input type="radio">Afternoon (12pm - 5pm)</div>
         </div>
       </div>
     </div>

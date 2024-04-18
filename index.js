@@ -6,8 +6,8 @@ import * as d3 from 'd3';
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
-    // loadResults();
-    // makeAppointment();
+    loadResults();
+    makeAppointment();
 });
 
 function search() {
@@ -125,8 +125,23 @@ function createResult(data) {
 
   // Set text contents and attributes
   hospitalName.textContent = data.hospital;
-  cashPrice.textContent = `Cash Price: ${data.rate}`;
-  yourPrice.textContent = `Your Price: ${data.rate}`;
+
+  cashPrice.textContent = "Cash Price: ";
+  yourPrice.textContent = "Your Price: ";
+
+  var cashPriceNum = document.createElement('span');
+  cashPriceNum.className = "number";
+  cashPriceNum.textContent = data.rate;
+  cashPriceNum.style.fontSize = "15px";
+
+  var yourPriceNum = document.createElement('span');
+  yourPriceNum.className = "number";
+  yourPriceNum.textContent = data.rate;
+  yourPriceNum.style.fontSize = "15px";
+
+  cashPrice.appendChild(cashPriceNum);
+  yourPrice.appendChild(yourPriceNum);
+
   serviceTitle.textContent = data.service;
   serviceAddress.textContent = data.address;
   distance.textContent = `${data.distance} Miles Away`;
