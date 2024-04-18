@@ -6,6 +6,8 @@ import * as d3 from 'd3';
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
+    // loadResults();
+    // makeAppointment();
 });
 
 function search() {
@@ -54,7 +56,6 @@ function parse(treatment, zips) {
 
   GetFileObjectFromURL(FileURL, function (fileObject) {
      Papa.parse(fileObject, {
-       worker: true,
        step: function(results) {
          var hospital_zip = results.data[indices.indexOf("zip_code")];
          var service = results.data[indices.indexOf("service")];
@@ -78,14 +79,17 @@ function parse(treatment, zips) {
          }
        },
        complete: function() {
-         loadResults(parsedData);
+         localStorage.setItem("data", JSON.stringify(parsedData));
+         loadResults();
        }
      });
   });
 
 }
 
-function loadResults(data) {
+function loadResults() {
+  var data = JSON.parse(localStorage.getItem("data"));
+
   var main = document.getElementById("main");
   var results = document.getElementById("results");
 
@@ -127,6 +131,9 @@ function createResult(data) {
   serviceAddress.textContent = data.address;
   distance.textContent = `${data.distance} Miles Away`;
   appointmentBtn.textContent = 'Make Appointment';
+  appointmentBtn.onclick = function() {
+    makeAppointment(data.hospital, data.service);
+  }
 
   // Assign classes for styling
   card.className = 'card';
@@ -160,6 +167,14 @@ function createResult(data) {
   card.appendChild(footer);
 
   document.getElementById('data').appendChild(card);
+}
+
+function makeAppointment(hospitalName, service) {
+  var resultsDiv = document.getElementById("results");
+  resultsDiv.style.display = "none";
+
+  var makeAppointmentDiv = document.getElementById("appointment");
+  makeAppointmentDiv.style.display = "block";
 }
 
 function addPlanOption(plan) {
