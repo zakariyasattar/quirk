@@ -2,6 +2,7 @@ import zipcodes from 'zipcodes';
 import Papa from 'papaparse';
 import axios from 'axios';
 import * as datedreamer from "datedreamer";
+import Swal from 'sweetalert2'
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
@@ -17,6 +18,42 @@ function search() {
     var rad = zipcodes.radius(parseInt(zip_code), 10);
 
     parse(treatment, rad);
+}
+
+function openInsurancePopUp() {
+  localStorage.getItem("plans")
+  const { value: fruit } = Swal.fire({
+    title: "Select Insurance Plan",
+    input: "select",
+    inputOptions: {
+      Fruits: {
+        apples: "Apples",
+        bananas: "Bananas",
+        grapes: "Grapes",
+        oranges: "Oranges"
+      },
+      Vegetables: {
+        potato: "Potato",
+        broccoli: "Broccoli",
+        carrot: "Carrot"
+      },
+      icecream: "Ice cream"
+    },
+    inputPlaceholder: "Select a fruit",
+    showCancelButton: true,
+    inputValidator: (value) => {
+      return new Promise((resolve) => {
+        if (value === "oranges") {
+          resolve();
+        } else {
+          resolve("You need to select oranges :)");
+        }
+      });
+    }
+  });
+  if (fruit) {
+    Swal.fire(`You selected: ${fruit}`);
+  }
 }
 
 function parse(treatment, zips) {
@@ -46,6 +83,7 @@ function parse(treatment, zips) {
 
   var parsedData = new Map();
   var finalDataSet = new Map();
+  var plans = new Map();
 
   var preferred_insurance;
 
@@ -60,45 +98,71 @@ function parse(treatment, zips) {
          var insurance = results.data[indices.indexOf("plan_raw")];
          var withinRadius = zips.includes(hospital_zip);
 
-         if(withinRadius && service.toLowerCase().indexOf(treatment.toLowerCase()) != -1 && (insurance == "List Price" || insurance == preferred_insurance)) {
-           var hospital = results.data[0];
-           var address = results.data[indices.indexOf("street_address")];
-           var cash_price = results.data[indices.indexOf("rate")];
+         if(withinRadius && service.toLowerCase().indexOf(treatment.toLowerCase()) != -1) {
+           var insuranceWords = insurance.split(" ");
+           var company = insuranceWords[0];
 
-           var details = {
-             "service": service,
-             "hospital": hospital,
-             "address": address,
-             "rate": "",
-             "your_rate": "",
-             "insurance": insurance
-           };
+           if((company == "Blue" && insuranceWords[1] == "Cross") || company == "BCBS") {
+             company = "BLUE CROSS BLUE SHIELD"
+           }
+           else if(company == "United" || company == "UNITED") {
+             company = "UNITED HEALTHCARE"
+           }
+           if(company == "Aetna"){
+             company = "AETNA";
+           }
 
-           if(parsedData.get(hospital + ";" + service)) {
-             results = parsedData.get(hospital + ";" + service);
-
-             if(insurance == preferred_insurance) {
-               results.your_rate = cash_price;
-             }
-             if(insurance == "List Price") {
-               results.rate = cash_price;
-             }
-
-             parsedData.set(hospital + ";" + service, results);
-
-             if(results.rate != "" && results.your_rate != "") {
-               finalDataSet.set(hospital + ";" + service, results);
-             }
+           if(plans.get(company)) {
+             var typesAdded = plans.get(company);
+             typesAdded.push(insurance);
+             plans.set(company, typesAdded);
            }
            else {
-             if(insurance == preferred_insurance) {
-               details.your_rate = cash_price;
-             }
-             if(insurance == "List Price") {
-               details.rate = cash_price;
-             }
+             plans.set(company, [insurance]);
+           }
 
-             parsedData.set(hospital + ";" + service, details);
+           if(insurance == "List Price" || insurance == preferred_insurance) {
+             var hospital = results.data[0];
+             var address = results.data[indices.indexOf("street_address")];
+             var cash_price = results.data[indices.indexOf("rate")];
+
+
+
+             var details = {
+               "service": service,
+               "hospital": hospital,
+               "address": address,
+               "rate": "",
+               "your_rate": "",
+               "insurance": insurance
+             };
+
+             if(parsedData.get(hospital + ";" + service)) {
+               results = parsedData.get(hospital + ";" + service);
+
+               if(insurance == preferred_insurance) {
+                 results.your_rate = cash_price;
+               }
+               if(insurance == "List Price") {
+                 results.rate = cash_price;
+               }
+
+               parsedData.set(hospital + ";" + service, results);
+
+               if(results.rate != "" && results.your_rate != "") {
+                 finalDataSet.set(hospital + ";" + service, results);
+               }
+             }
+             else {
+               if(insurance == preferred_insurance) {
+                 details.your_rate = cash_price;
+               }
+               if(insurance == "List Price") {
+                 details.rate = cash_price;
+               }
+
+               parsedData.set(hospital + ";" + service, details);
+             }
            }
          }
          if(preferred_insurance == null) {
@@ -106,6 +170,7 @@ function parse(treatment, zips) {
          }
        },
        complete: function() {
+         console.log(plans);
          localStorage.setItem("data", JSON.stringify(Array.from(finalDataSet)));
          loadResults();
        }
@@ -196,7 +261,7 @@ function createResult(data) {
   addInsurance.textContent = "See Your Rate";
   addInsurance.className = "add-insurance-button";
   addInsurance.onclick = function() {
-    insurancePopUp();
+    openInsurancePopUp();
   }
 
   // Construct the card

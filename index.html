@@ -18,17 +18,44 @@
   <body>
     <center><div id="top-banner">
       <h1 id="company-name">Quirk Health</h1>
-      <button id="contact-provider">Talk To A Provider</button>
+      <button id="contact-provider" onclick="javascript:document.getElementById('chatbox').style.display = 'block'">Talk To A Provider</button>
       <button id="sign-up">Sign Up</button>
     </div></center>
+    <div id="chatbox">
+        <div class="chatbox-header">
+            <p>Provider support available M-F 8AM - 6PM</p>
+            <button class="close-btn" onclick="javascript:document.getElementById('chatbox').style.display = 'none'">X</button>
+        </div>
+        <div class="chatbox-messages">
+            <div class="message">
+                <div class="agent">
+                    <!-- <img src="agent.png" alt="Agent" class="agent-img"> -->
+                    <div class="text">
+                        <p class="name">Alex from Cost+</p>
+                        <p>Welcome to Cost+ support, how can we help you today?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="message">
+                <div class="guest">
+                    <p class="name">Guest</p>
+                    <p>Hi there, I’m looking to find the appropriate MRI for my issue</p>
+                </div>
+            </div>
+        </div>
+    </div>
     <div id="main">
       <h3 id="header">Sift through prices and facilites <i>before</i> you get care.</h3>
       <img src="windows.png" alt="" style="margin-left: 55px; position: relative; top: 3vh;">
 
       <div id="input">
-        <center><input type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
-        <input type="text" id = "zip-code" name="" value="" placeholder="Zip Code">
-        <button id="search">Search Options!</button></center>
+        <center>
+          <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-searchIcon.233c604eaa81.svg') no-repeat scroll 7px 7px"
+          type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
+          <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-locationIcon.00019fc2f62c.svg') no-repeat scroll 7px 7px"
+          type="text" id = "zip-code" name="" value="" placeholder="Zip Code">
+          <button id="search">Search Options!</button>
+        </center>
       </div>
     </div>
 
@@ -39,9 +66,12 @@
         <button id="search">Search Options!</button>
       </div>
 
-      <div id="filters">
+      <center><div id="choose-insurance" style="display: none">
         <input type="text" placeholder="Search..." id="plan_search" style="width: 50%">
         <div id="plan_dropdown" class="dropdown-content"></div>
+      </div></center>
+
+      <div id="filters">
         <span style="text-align: center">Filters</span>
       </div>
 
@@ -77,4 +107,4 @@
       <center><button id="book-btn">Request Appointment</button></center>
     </div>
   </body>
-</html
+</html>

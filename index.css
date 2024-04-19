@@ -65,6 +65,7 @@ input {
   background: #eebbc3;
   box-shadow: 4px 4px black;
   border-radius: 10px;
+  cursor: pointer;
 
 }
 
@@ -96,7 +97,7 @@ input {
 }
 
 #main input {
-  width: 80%;
+  width: 75%;
   position: relative;
   top: 8vh;
   margin-bottom: 4vh;
@@ -129,10 +130,89 @@ input {
 }
 
 /* /////////////////////
+        CHATBOT
+///////////////////// */
+
+#chatbox {
+    position: fixed;
+    bottom: 0;
+    height: 50%;
+    right: 30px;
+    width: 20%;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    border-radius: 8px 8px 0 0;
+    overflow: hidden;
+    font-size: 14px;
+    z-index: 100;
+    display: none;
+}
+
+.chatbox-header {
+    background-color: #4CAF50;
+    color: #fff;
+    padding: 10px;
+    position: relative;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    border: none;
+    background: none;
+    color: white;
+    cursor: pointer;
+}
+
+.chatbox-messages {
+    height: 200px;
+    overflow-y: auto;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+.message {
+    margin-bottom: 15px;
+}
+
+.agent, .guest {
+    display: flex;
+    align-items: flex-start;
+}
+
+.agent-img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.agent .text, .guest {
+    background-color: #e7e7e7;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.guest {
+    background-color: #d1edc1;
+    align-self: flex-end;
+}
+
+/* /////////////////////
         RESULTS
 ///////////////////// */
 
 #results {
+}
+
+#results #choose-insurance {
+  width: 65%;
+  background: white;
 }
 
 #results #input {
