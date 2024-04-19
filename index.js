@@ -6,8 +6,8 @@ import * as datedreamer from "datedreamer";
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
-    loadResults();
-    makeAppointment();
+    // loadResults();
+    // makeAppointment();
 });
 
 function search() {
@@ -44,15 +44,13 @@ function parse(treatment, zips) {
 
   var FileURL = require('./public/data.csv');
 
-  var parsedData = [];
+  var parsedData = new Map();
+  var finalDataSet = new Map();
+
   var preferred_insurance;
 
-  if(localStorage.getItem("preferred_plan") == null) {
-    preferred_insurance = "List Price";
-  }
-  else {
-    preferred_insurance = localStorage.getItem("preferred_plan");
-  }
+  preferred_insurance = localStorage.getItem("preferred_plan");
+  console.log(preferred_insurance)
 
   GetFileObjectFromURL(FileURL, function (fileObject) {
      Papa.parse(fileObject, {
@@ -62,7 +60,7 @@ function parse(treatment, zips) {
          var insurance = results.data[indices.indexOf("plan_raw")];
          var withinRadius = zips.includes(hospital_zip);
 
-         if(withinRadius && service.toLowerCase().indexOf(treatment.toLowerCase()) != -1 && insurance == preferred_insurance) {
+         if(withinRadius && service.toLowerCase().indexOf(treatment.toLowerCase()) != -1 && (insurance == "List Price" || insurance == preferred_insurance)) {
            var hospital = results.data[0];
            var address = results.data[indices.indexOf("street_address")];
            var cash_price = results.data[indices.indexOf("rate")];
@@ -71,15 +69,44 @@ function parse(treatment, zips) {
              "service": service,
              "hospital": hospital,
              "address": address,
-             "rate": cash_price,
+             "rate": "",
+             "your_rate": "",
              "insurance": insurance
            };
 
-           parsedData.push(details);
+           if(parsedData.get(hospital + ";" + service)) {
+             results = parsedData.get(hospital + ";" + service);
+
+             if(insurance == preferred_insurance) {
+               results.your_rate = cash_price;
+             }
+             if(insurance == "List Price") {
+               results.rate = cash_price;
+             }
+
+             parsedData.set(hospital + ";" + service, results);
+
+             if(results.rate != "" && results.your_rate != "") {
+               finalDataSet.set(hospital + ";" + service, results);
+             }
+           }
+           else {
+             if(insurance == preferred_insurance) {
+               details.your_rate = cash_price;
+             }
+             if(insurance == "List Price") {
+               details.rate = cash_price;
+             }
+
+             parsedData.set(hospital + ";" + service, details);
+           }
+         }
+         if(preferred_insurance == null) {
+           finalDataSet = parsedData;
          }
        },
        complete: function() {
-         localStorage.setItem("data", JSON.stringify(parsedData));
+         localStorage.setItem("data", JSON.stringify(Array.from(finalDataSet)));
          loadResults();
        }
      });
@@ -89,6 +116,7 @@ function parse(treatment, zips) {
 
 function loadResults() {
   var data = JSON.parse(localStorage.getItem("data"));
+  console.log(data);
 
   var main = document.getElementById("main");
   var results = document.getElementById("results");
@@ -99,10 +127,9 @@ function loadResults() {
   var options = {};
 
   for(var x in data) {
-    addPlanOption(data[x].insurance);
-    createResult(data[x]);
+    addPlanOption(data[x][1].insurance);
+    createResult(data[x][1]);
   }
-  console.log(options);
 
   // localStorage.setItem("plans", JSON.stringify(plans));
 
@@ -136,7 +163,7 @@ function createResult(data) {
 
   var yourPriceNum = document.createElement('span');
   yourPriceNum.className = "number";
-  yourPriceNum.textContent = data.rate;
+  yourPriceNum.textContent = data.your_rate;
   yourPriceNum.style.fontSize = "15px";
 
   cashPrice.appendChild(cashPriceNum);
@@ -175,7 +202,7 @@ function createResult(data) {
   // Construct the card
   priceInfo.appendChild(cashPrice);
 
-  if(localStorage.getItem("preffered_plan")) {
+  if(localStorage.getItem("preferred_plan")) {
     priceInfo.appendChild(yourPrice);
   }
   else {

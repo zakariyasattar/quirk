@@ -369,7 +369,6 @@ input {
 #appointment #user-data {
   width: 30%;
   margin-left: 13vw;
-  margin-top: 5vh;
   float: left;
   font-family: "Work Sans", sans-serif;
 }
@@ -395,7 +394,6 @@ input {
 }
 
 #appointment #appointment-availability {
-  margin-top: 5vh;
   float: right;
   margin-right: 8vw;
 
@@ -412,7 +410,7 @@ input {
 }
 
 #appointment-availability .appointment-date {
-  margin-top: 40px;
+  margin-top: 25px;
 }
 
 #appointment-availability .appointment-input-first {
@@ -428,7 +426,7 @@ input {
   text-align: left;
 
   font-size: 18px;
-  margin-top: 25px;
+  margin-top: 15px;
   padding-top: 10px;
   padding-left: 10px;
 
@@ -449,4 +447,19 @@ input {
   /* margin-top: 5px; */
   padding-top: 10px;
   padding-left: 10px;
+}
+
+#appointment #book-btn {
+  width: 20%;
+  height: 35px;
+
+  position: relative;
+  left: 22.5%;
+  top: 15vh;
+
+  border: 1px solid black;
+  border-radius: 8px;
+  cursor: pointer;
+  background: #ffd87d;
+
 }
