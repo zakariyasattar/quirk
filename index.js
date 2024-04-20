@@ -7,8 +7,8 @@ import Swal from 'sweetalert2'
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
-    loadResults();
-    makeAppointment();
+    // loadResults();
+    // makeAppointment();
 });
 
 function search() {
