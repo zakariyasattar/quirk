@@ -6,17 +6,59 @@ import Swal from 'sweetalert2'
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
-    document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
-    // loadResults();
-    // makeAppointment();
+    document.getElementById("re-search").addEventListener('click', search);
+    // document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
+
+    document.getElementById("company-name").addEventListener('click', function() {
+      document.getElementById("results").style.display = "none";
+      document.getElementById("appointment").style.display = "none";
+      document.getElementById("main").style.display = "block";
+    });
+
+    loadResults();
+    makeAppointment();
 });
 
+function removeCalendars() {
+  var calendars = document.getElementsByTagName("datedreamer-calendar");
+  if(calendars.length > 0) {
+    for(var c in calendars) {
+      if(typeof calendars[c] == "object"){
+        calendars[c].remove();
+      }
+    }
+  }
+
+}
+
+function removeCards() {
+  var cards = document.getElementsByClassName('card');
+
+  for(var card of cards) {
+    card.remove();
+  }
+
+  if(document.getElementsByClassName('card').length > 0) {
+    removeCards();
+  }
+}
+
 function search() {
-    var treatment = document.getElementById("treatment").value;
-    var zip_code = document.getElementById("zip-code").value;
+    if(document.getElementById("main").style.display != "none"){
+      var treatment = document.getElementById("treatment").value;
+      var zip_code = document.getElementById("zip-code").value;
+      console.log(document.getElementById("treatment"), treatment, zip_code)
+
+    }
+    else {
+      removeCards();
+      var treatment = document.getElementById("results-treatment").value;
+      var zip_code = document.getElementById("results-zip-code").value;
+    }
+
+    console.log(treatment, zip_code)
 
     var rad = zipcodes.radius(parseInt(zip_code), 10);
-
     parse(treatment, rad);
 }
 
@@ -56,6 +98,7 @@ function openInsurancePopUp() {
   }
 }
 
+
 function parse(treatment, zips) {
   var indices = ["provider","health_system","service","code","code_type","plan_raw","rate","medicare_provider_id","zip_code","street_address","city","state","county","acute_care_facility","hospital_overall_rating","hospital_type","total_beds","npi","compliance_score"];
 
@@ -88,7 +131,6 @@ function parse(treatment, zips) {
   var preferred_insurance;
 
   preferred_insurance = localStorage.getItem("preferred_plan");
-  console.log(preferred_insurance)
 
   GetFileObjectFromURL(FileURL, function (fileObject) {
      Papa.parse(fileObject, {
@@ -125,8 +167,6 @@ function parse(treatment, zips) {
              var hospital = results.data[0];
              var address = results.data[indices.indexOf("street_address")];
              var cash_price = results.data[indices.indexOf("rate")];
-
-
 
              var details = {
                "service": service,
@@ -181,7 +221,6 @@ function parse(treatment, zips) {
 
 function loadResults() {
   var data = JSON.parse(localStorage.getItem("data"));
-  console.log(data);
 
   var main = document.getElementById("main");
   var results = document.getElementById("results");
@@ -290,6 +329,7 @@ function createResult(data) {
 }
 
 function makeAppointment(hospitalName, service) {
+  removeCalendars();
   var resultsDiv = document.getElementById("results");
   resultsDiv.style.display = "none";
 
@@ -304,13 +344,17 @@ function makeAppointment(hospitalName, service) {
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
 
-  console.log(today.getDay())
-
   var selected_date = document.getElementById("selected-date");
   selected_date.innerText = days[today.getDay()] + ", " + months[today.getMonth()] + " " + today.getDate()
 
   today = mm + '/' + dd + '/' + yyyy;
 
+  document.getElementsByClassName("appointment-input-first")[0].addEventListener('click', function() {
+    document.getElementById("first").checked = true;
+  });
+  document.getElementsByClassName("appointment-input")[0].addEventListener('click', function() {
+    document.getElementById("second").checked = true;
+  });
 
   new datedreamer.calendar({
     element: "#calendar",
@@ -349,7 +393,26 @@ function makeAppointment(hospitalName, service) {
       // console.log(e.detail.calendar);
     },
   });
+
+  document.getElementById("book-btn").addEventListener('click', function() {
+    var checkedBoxes = document.querySelectorAll('input[name=time]:checked');
+    var time = checkedBoxes[0].nextSibling.data.substring(0, checkedBoxes[0].nextSibling.data.indexOf(" "));
+    var date = document.getElementById("selected-date").innerText;
+
+    Swal.fire({
+      title: "Appointment Scheduled!",
+      text: "Appointment Booked For The " + time + " Of " + date + "!",
+      icon: "success"
+    }).then((result) => {
+      document.getElementById("appointment").style.display = "none";
+      document.getElementById("results").style.display = "block";
+    });
+
+  });
+
 }
+
+
 
 function addPlanOption(plan) {
   if(plan != "List Price" && plan != "Cash Price") {

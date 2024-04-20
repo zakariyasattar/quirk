@@ -17,11 +17,12 @@
 
   <body>
     <center><div id="top-banner">
-      <!-- <h1 id="company-name">
+      <h1 id="company-name">
+        <!-- <img src="./images/logo_img.png" height="100px" width="130px"></img> -->
         Quirk Health
 
-      </h1> -->
-      <img src="./images/logo.JPEG" height="100px" width="130px"></img>
+      </h1>
+      <!-- <img src="./images/logo.JPEG" height="100px" width="130px"></img> -->
       <button id="contact-provider" onclick="javascript:document.getElementById('chatbox').style.display = 'block'">Talk To A Provider</button>
       <button id="sign-up">Sign Up</button>
     </div></center>
@@ -65,9 +66,9 @@
 
     <div id="results" style="display: none">
       <div id="input">
-        <input type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
-        <input type="text" id = "zip-code" name="" value="" placeholder="Zip Code" style="margin-left: 15px;"><br/>
-        <button id="search">Search Options!</button>
+        <input type="text" id="results-treatment" name="" value="" placeholder="Name of Treatment">
+        <input type="text" id="results-zip-code" name="" value="" placeholder="Zip Code" style="margin-left: 15px;"><br/>
+        <button id="re-search">Search Options!</button>
       </div>
 
       <center><div id="choose-insurance" style="display: none">
@@ -75,9 +76,9 @@
         <div id="plan_dropdown" class="dropdown-content"></div>
       </div></center>
 
-      <div id="filters">
+      <!-- <div id="filters">
         <span style="text-align: center">Filters</span>
-      </div>
+      </div> -->
 
       <center><div id="data">
         <span id="data-header">Search Results</span>
@@ -102,8 +103,8 @@
 
         <div class="appointment-date">
           <span class="appointment-header">Availability For <span id="selected-date">Monday, March 10</span></span>
-          <div class="appointment-input-first" onclick="select-appointment"><input type="radio">Morning (8am - 12pm)</input></div>
-          <div class="appointment-input" onclick="select-appointment"><input type="radio">Afternoon (12pm - 5pm)</input></div>
+          <div class="appointment-input-first"><input id="first" type="radio" name="time">Morning (8am - 12pm)</input></div>
+          <div class="appointment-input"><input id="second" type="radio" name="time">Afternoon (12pm - 5pm)</input></div>
         </div>
       </div>
       <br/>

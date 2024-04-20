@@ -7,6 +7,10 @@ body {
   color: #1f1235;
 }
 
+.swal2-popup {
+  font-family: "Work Sans", sans-serif;
+}
+
 input {
   font-family: "Work Sans", sans-serif;
 }
@@ -30,7 +34,7 @@ input {
   font-family: "Space Grotesk", sans-serif;
   margin: 0;
   color: #fffffe;
-  text-decoration: underline;
+  cursor: pointer;
 
 }
 
@@ -220,6 +224,9 @@ input {
   float: left;
   margin: 35px;
   width: 50%;
+
+  top: 25vh;
+  position: relative;
 }
 
 #results input {
@@ -228,9 +235,10 @@ input {
   padding-left: 20px;
   border: 2px solid black;
   font-size: 16px;
+  margin-bottom: 30px;
 }
 
-#results #search {
+#results #re-search {
   width: 70%;
   float: left;
   position: relative;
@@ -497,6 +505,7 @@ input {
 #appointment-availability .appointment-input-first {
   width: 100%;
   height: 35px;
+  cursor: pointer;
 
   /* top-left | top-right | bottom-right | bottom-left */
   border-radius: 4px 4px 0 0;
@@ -516,6 +525,7 @@ input {
 #appointment-availability .appointment-input {
   width: 100%;
   height: 35px;
+  cursor: pointer;
 
   /* top-left | top-right | bottom-right | bottom-left */
   border-radius: 0 0 4px 4px;
