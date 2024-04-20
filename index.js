@@ -7,8 +7,8 @@ import Swal from 'sweetalert2'
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
-    // loadResults();
-    // makeAppointment();
+    loadResults();
+    makeAppointment();
 });
 
 function search() {
@@ -296,12 +296,21 @@ function makeAppointment(hospitalName, service) {
   var makeAppointmentDiv = document.getElementById("appointment");
   makeAppointmentDiv.style.display = "block";
 
+  var days = ["Sunday","Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
   var today = new Date();
   var dd = String(today.getDate()).padStart(2, '0');
   var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
   var yyyy = today.getFullYear();
 
+  console.log(today.getDay())
+
+  var selected_date = document.getElementById("selected-date");
+  selected_date.innerText = days[today.getDay()] + ", " + months[today.getMonth()] + " " + today.getDate()
+
   today = mm + '/' + dd + '/' + yyyy;
+
 
   new datedreamer.calendar({
     element: "#calendar",
@@ -330,10 +339,14 @@ function makeAppointment(hospitalName, service) {
     `,
     // callback
     onChange: (e) => {
-      console.log(e.detail);
+      var newDate = new Date(e.detail);
+      var finalStr = days[newDate.getDay()] + ", " + months[newDate.getMonth()] + " " + newDate.getDate()
+
+      selected_date.innerText = finalStr;
+
     },
     onRender: (e) => {
-      console.log(e.detail.calendar);
+      // console.log(e.detail.calendar);
     },
   });
 }
