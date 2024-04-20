@@ -15,8 +15,8 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("main").style.display = "block";
     });
 
-    loadResults();
-    makeAppointment();
+    // loadResults();
+    // makeAppointment();
 });
 
 function removeCalendars() {
