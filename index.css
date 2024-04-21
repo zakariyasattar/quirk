@@ -229,7 +229,7 @@ input {
 
 #results input {
   height: 40px;
-  width: 30%;
+  width: 40%;
   padding-left: 20px;
   border: 2px solid black;
   font-size: 16px;
@@ -237,13 +237,11 @@ input {
 }
 
 #results #re-search {
-  width: 70%;
-  float: left;
+  width: 90%;
   position: relative;
   height: 40px;
   border-radius: 3px;
   border: 2px solid black;
-  margin-top: 15px;
   cursor: pointer;
 
   background: #5fb4b7;
@@ -254,8 +252,7 @@ input {
 }
 
 #results #change-insurance {
-  width: 70%;
-  float: left;
+  width: 90%;
   position: relative;
   height: 40px;
   border-radius: 3px;
@@ -278,6 +275,62 @@ input {
 
   position: relative;
   top: 23vh;
+}
+
+.center {
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.wave {
+  width: 5px;
+  height: 100px;
+  /* background: linear-gradient(45deg, cyan, #fff);
+   */
+   background: black;
+  margin: 10px;
+  animation: wave 1s linear infinite;
+  border-radius: 20px;
+}
+.wave:nth-child(2) {
+  animation-delay: 0.1s;
+}
+.wave:nth-child(3) {
+  animation-delay: 0.2s;
+}
+.wave:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.wave:nth-child(5) {
+  animation-delay: 0.4s;
+}
+.wave:nth-child(6) {
+  animation-delay: 0.5s;
+}
+.wave:nth-child(7) {
+  animation-delay: 0.6s;
+}
+.wave:nth-child(8) {
+  animation-delay: 0.7s;
+}
+.wave:nth-child(9) {
+  animation-delay: 0.8s;
+}
+.wave:nth-child(10) {
+  animation-delay: 0.9s;
+}
+
+@keyframes wave {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
 }
 
 /* Dropdown Button */
@@ -355,7 +408,7 @@ input {
 #results #data-header {
   font-size: 45px;
   position: relative;
-
+  padding-bottom: 105px;
 }
 
 #results #data {
@@ -451,12 +504,12 @@ input {
     background-color: #eebbc3;
     color: black;
     border: none;
+    width: 55%;
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-    margin-right: 35%;
     margin-bottom: 30px;
     cursor: pointer;
     border-radius: 4px;

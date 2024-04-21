@@ -5,6 +5,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Sedan:ital@0;1&family=Space+Grotesk:wght@300..700&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
 
@@ -59,18 +60,24 @@
           type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
           <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-locationIcon.00019fc2f62c.svg') no-repeat scroll 7px 7px"
           type="text" id = "zip-code" name="" value="" placeholder="Zip Code">
-          <button id="search">Search Options!</button>
+          <button id="search">
+            <div id="main-loading" style="display: none;">
+              <i class="fa fa-circle-o-notch fa-spin"></i>
+              Loading
+            </div>
+            <span id="main-default">Search Options!</span>
+          </button>
         </center>
       </div>
     </div>
 
     <div id="results" style="display: none">
-      <div id="input">
+      <center><div id="input">
         <input type="text" id="results-treatment" name="" value="" placeholder="Name of Treatment">
         <input type="text" id="results-zip-code" name="" value="" placeholder="Zip Code" style="margin-left: 15px;"><br/>
         <button id="re-search">Search Options</button>
-        <button id="change-insurance">Change Insurance</button>
-      </div>
+        <button id="change-insurance">Update Insurance Plan</button>
+      </div></center>
 
       <center><div id="choose-insurance" style="display: none">
         <input type="text" placeholder="Search..." id="plan_search" style="width: 50%">
@@ -83,6 +90,22 @@
 
       <center><div id="data">
         <span id="data-header">Search Results</span>
+
+        <div id="results-loading" style="display: none">
+          <div class="center">
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+            <div class="wave"></div>
+          </div>
+        </div>
+
       </div></center>
     </div>
 

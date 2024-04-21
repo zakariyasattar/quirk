@@ -50,10 +50,12 @@ function search(insurance) {
     if(document.getElementById("main").style.display != "none"){
       var treatment = document.getElementById("treatment").value;
       var zip_code = document.getElementById("zip-code").value;
-      console.log(document.getElementById("treatment"), treatment, zip_code);
+      document.getElementById("main-loading").style.display = "block";
+      document.getElementById("main-default").style.display = "none";
     }
     else {
       removeCards();
+      document.getElementById("results-loading").style.display = "block";
       var treatment = document.getElementById("results-treatment").value;
       var zip_code = document.getElementById("results-zip-code").value;
     }
@@ -180,6 +182,13 @@ function parse(treatment, zips) {
          }
        },
        complete: function() {
+         if(document.getElementById("results").style.display != "none") {
+           document.getElementById("results-loading").style.display = "none";
+         }
+         else if(document.getElementById("main").style.display != "none") {
+           document.getElementById("main-loading").style.display = "none";
+           document.getElementById("main-default").style.display = "block";
+         }
          localStorage.setItem("plans", JSON.stringify(Array.from(plans)));
          localStorage.setItem("data", JSON.stringify(Array.from(finalDataSet)));
          loadResults();
@@ -251,7 +260,6 @@ function createResult(data) {
 
   serviceTitle.textContent = data.service;
   serviceAddress.textContent = data.address;
-  distance.textContent = `${data.distance} Miles Away`;
   appointmentBtn.textContent = 'Make Appointment';
   appointmentBtn.onclick = function() {
     makeAppointment(data.hospital, data.service);
