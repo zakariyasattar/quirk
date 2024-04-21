@@ -221,12 +221,10 @@ input {
 }
 
 #results #input {
-  float: left;
   margin: 35px;
   width: 50%;
 
   top: 25vh;
-  position: relative;
 }
 
 #results input {
@@ -249,6 +247,23 @@ input {
   cursor: pointer;
 
   background: #5fb4b7;
+  color: #153031;
+  font-size: 17px;
+  transition: all 1s ease-in-out;
+  font-family: "Space Grotesk", sans-serif;
+}
+
+#results #change-insurance {
+  width: 70%;
+  float: left;
+  position: relative;
+  height: 40px;
+  border-radius: 3px;
+  border: 2px solid black;
+  margin-top: 15px;
+  cursor: pointer;
+
+  background: #aaceb0;
   color: #153031;
   font-size: 17px;
   transition: all 1s ease-in-out;
@@ -335,9 +350,6 @@ input {
   height: 80vh;
   top: 20%;
   right: 15px;
-  position: absolute;
-
-  float: right;
 }
 
 #results #data-header {

@@ -7,6 +7,9 @@ import Swal from 'sweetalert2'
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("re-search").addEventListener('click', search);
+    document.getElementById("change-insurance").addEventListener('click', function() {
+      openInsurancePopUp();
+    });
     // document.getElementById("plan_search").addEventListener('onfocus', filterPlans);
 
     document.getElementById("company-name").addEventListener('click', function() {
@@ -43,12 +46,11 @@ function removeCards() {
   }
 }
 
-function search() {
+function search(insurance) {
     if(document.getElementById("main").style.display != "none"){
       var treatment = document.getElementById("treatment").value;
       var zip_code = document.getElementById("zip-code").value;
-      console.log(document.getElementById("treatment"), treatment, zip_code)
-
+      console.log(document.getElementById("treatment"), treatment, zip_code);
     }
     else {
       removeCards();
@@ -63,39 +65,25 @@ function search() {
 }
 
 function openInsurancePopUp() {
-  localStorage.getItem("plans")
-  const { value: fruit } = Swal.fire({
+  var plans = JSON.parse(localStorage.getItem("plans"));
+
+  const { value: plan } = Swal.fire({
     title: "Select Insurance Plan",
     input: "select",
     inputOptions: {
-      Fruits: {
-        apples: "Apples",
-        bananas: "Bananas",
-        grapes: "Grapes",
-        oranges: "Oranges"
-      },
-      Vegetables: {
-        potato: "Potato",
-        broccoli: "Broccoli",
-        carrot: "Carrot"
-      },
-      icecream: "Ice cream"
+      Insurance: plans
     },
-    inputPlaceholder: "Select a fruit",
+    inputPlaceholder: "Select A Plan",
     showCancelButton: true,
     inputValidator: (value) => {
       return new Promise((resolve) => {
-        if (value === "oranges") {
-          resolve();
-        } else {
-          resolve("You need to select oranges :)");
-        }
+        var selectedInsurance = plans[value];
+        localStorage.setItem("preferred_plan", selectedInsurance);
+        search();
+        resolve();
       });
     }
   });
-  if (fruit) {
-    Swal.fire(`You selected: ${fruit}`);
-  }
 }
 
 
@@ -126,7 +114,7 @@ function parse(treatment, zips) {
 
   var parsedData = new Map();
   var finalDataSet = new Map();
-  var plans = new Map();
+  var plans = new Set();
 
   var preferred_insurance;
 
@@ -141,26 +129,8 @@ function parse(treatment, zips) {
          var withinRadius = zips.includes(hospital_zip);
 
          if(withinRadius && service.toLowerCase().indexOf(treatment.toLowerCase()) != -1) {
-           var insuranceWords = insurance.split(" ");
-           var company = insuranceWords[0];
-
-           if((company == "Blue" && insuranceWords[1] == "Cross") || company == "BCBS") {
-             company = "BLUE CROSS BLUE SHIELD"
-           }
-           else if(company == "United" || company == "UNITED") {
-             company = "UNITED HEALTHCARE"
-           }
-           if(company == "Aetna"){
-             company = "AETNA";
-           }
-
-           if(plans.get(company)) {
-             var typesAdded = plans.get(company);
-             typesAdded.push(insurance);
-             plans.set(company, typesAdded);
-           }
-           else {
-             plans.set(company, [insurance]);
+           if(insurance != "Cash Price" && insurance != "List Price") {
+             plans.add(insurance);
            }
 
            if(insurance == "List Price" || insurance == preferred_insurance) {
@@ -210,7 +180,7 @@ function parse(treatment, zips) {
          }
        },
        complete: function() {
-         console.log(plans);
+         localStorage.setItem("plans", JSON.stringify(Array.from(plans)));
          localStorage.setItem("data", JSON.stringify(Array.from(finalDataSet)));
          loadResults();
        }
@@ -225,8 +195,14 @@ function loadResults() {
   var main = document.getElementById("main");
   var results = document.getElementById("results");
 
+  var lastTreatment = document.getElementById("treatment").value;
+  var lastZip = document.getElementById("zip-code").value;
+
   main.style.display = "none";
   results.style.display = "block";
+
+  document.getElementById("results-treatment").value = lastTreatment;
+  document.getElementById("results-zip-code").value = lastZip;
 
   var options = {};
 
