@@ -54,6 +54,7 @@ function search(insurance) {
       document.getElementById("main-default").style.display = "none";
     }
     else {
+      document.getElementById("no-results").style.display = "none";
       removeCards();
       document.getElementById("results-loading").style.display = "block";
       var treatment = document.getElementById("results-treatment").value;
@@ -200,6 +201,11 @@ function parse(treatment, zips) {
 
 function loadResults() {
   var data = JSON.parse(localStorage.getItem("data"));
+  console.log(data)
+
+  if(data.length == 0) {
+    document.getElementById("no-results").style.display = "block";
+  }
 
   var main = document.getElementById("main");
   var results = document.getElementById("results");
