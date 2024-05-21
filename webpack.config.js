@@ -7,3 +7,7 @@ module.exports = {
     filename: 'bundle.js' // Name of the bundled file
   }
 };
+
+config.node = {
+  fs: 'empty',
+}
