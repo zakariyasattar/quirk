@@ -302,6 +302,7 @@ function createResult(data) {
   else {
     priceInfo.appendChild(addInsurance);
   }
+
   header.appendChild(hospitalName);
   header.appendChild(priceInfo);
 
