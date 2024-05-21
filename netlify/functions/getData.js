@@ -9,7 +9,8 @@ exports.handler = async function(event, context) {
         const database = client.db('quirk');
         const collection = database.collection('main');
 
-        const documents = await collection.find({}).toArray();
+        const documents = await collection.find({}).limit(100).toArray();
+
         return {
             statusCode: 200,
             headers: {
@@ -18,7 +19,7 @@ exports.handler = async function(event, context) {
             body: JSON.stringify(documents),
         };
     } catch (error) {
-        console.error(error);
+        console.error('Error fetching documents:', error);
         return {
             statusCode: 500,
             headers: {

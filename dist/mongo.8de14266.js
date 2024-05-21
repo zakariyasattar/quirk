@@ -5475,7 +5475,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 document.addEventListener('DOMContentLoaded', function () {
   // const documentsList = document.getElementById('documents-list');
 
-  _axios.default.get('netlify/functions/getData').then(function (response) {
+  _axios.default.get('.netlify/functions/getData').then(function (response) {
     var documents = response.data;
     console.log(documents);
   }).catch(function (error) {
@@ -5507,7 +5507,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "50779" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52046" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

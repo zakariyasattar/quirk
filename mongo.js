@@ -36,7 +36,7 @@ import axios from 'axios';
 document.addEventListener('DOMContentLoaded', function() {
     // const documentsList = document.getElementById('documents-list');
 
-    axios.get('netlify/functions/getData')
+    axios.get('.netlify/functions/getData')
         .then(response => {
             const documents = response.data;
             console.log(documents);
