@@ -17,6 +17,6 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("main").style.display = "block";
     });
 
-    loadResults();
+    // loadResults();
     // makeAppointment();
 });
