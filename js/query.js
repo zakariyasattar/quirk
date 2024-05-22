@@ -23,6 +23,13 @@ export function search(insurance) {
 }
 
 function query(treatment, zips) {
+	treatment = treatment.toUpperCase();
+	treatment = treatment.replace(/[\*\+]/g," ")
+         .replace(/^\d+(\s+)?/,"")
+         .replace(/\n?/,"")
+         .replace(/\s{2,}/g," ")
+
+	
 	const filter = { service: {$regex : treatment}, zip_code: { $in: zips } };
 	fetch('.netlify/functions/getData', {
 			method: 'POST',
