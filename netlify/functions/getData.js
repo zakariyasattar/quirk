@@ -9,7 +9,10 @@ exports.handler = async function(event, context) {
         const database = client.db('quirk');
         const collection = database.collection('main');
 
-        const documents = await collection.find({}).limit(100).toArray();
+        const queryParams = JSON.parse(event.body);
+        const filter = queryParams.filter || {};
+
+        const documents = await collection.find(filter).toArray();
 
         return {
             statusCode: 200,
