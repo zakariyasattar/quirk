@@ -1,5 +1,17 @@
+import Swal from 'sweetalert2'
+
 function openInsurancePopUp() {
-  var plans = JSON.parse(localStorage.getItem("plans"));
+  // var plans = JSON.parse(localStorage.getItem("plans"));
+  var plans = [
+      "Aetna",
+      "United Healthcare",
+      "Cigna",
+      "Medicare",
+      "Health Alliance",
+      "Blue Cross Blue Shield",
+      "Anthem",
+      "Humana"
+    ]
 
   const { value: plan } = Swal.fire({
     title: "Select Insurance Plan",
@@ -12,12 +24,53 @@ function openInsurancePopUp() {
     inputValidator: (value) => {
       return new Promise((resolve) => {
         var selectedInsurance = plans[value];
-        localStorage.setItem("preferred_plan", selectedInsurance);
-        search();
+        removeCards();
+        populate([selectedInsurance]);
         resolve();
       });
     }
   });
+}
+
+function populate(insurance) {
+    var data = JSON.parse(localStorage.getItem("data"));
+
+    if(insurance[0] == "Blue Cross Blue Shield") {
+        insurance.push("BCBS");
+        insurance.push("Blue Cross");
+    }
+
+    if(insurance[0] == "United Healthcare") {
+        insurance.push("UHC");
+    }
+
+    for(var elem of data) {
+        var insuranceCount = 0;
+        var sum = 0;
+
+        for(var plan of elem['plans']) {
+            var plan_name = plan.split("@")[0];
+            var price = plan.split("@")[1];
+
+            console.log(plan);
+
+            for(var i of insurance) {
+                if(plan_name.indexOf(i) != -1 && parseFloat(price) < parseFloat(elem.cash_rate)) {
+                    sum += parseFloat(price);
+                    insuranceCount++;
+                }
+            }
+        }
+
+        if(insuranceCount != 0) {
+            var finalNum = (Math.round((sum / insuranceCount) * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            elem.insurance_rate = finalNum;
+
+            createResult(elem);
+        }
+    }
+
+    localStorage.setItem("data", JSON.stringify(data));
 }
 
 function removeCards() {
@@ -51,6 +104,7 @@ export function createResult(data) {
   var address = data.street_address + ", " + data.city + ", " + data.state + ", " + data.zip_code;
   var service = data.service;
   var cash_rate = data.cash_rate;
+  var insurance_rate = data.insurance_rate;
 
   // Set text contents and attributes
   hospitalName.textContent = hospital;
@@ -60,12 +114,12 @@ export function createResult(data) {
 
   var cashPriceNum = document.createElement('span');
   cashPriceNum.className = "number";
-  cashPriceNum.textContent = cash_rate;
+  cashPriceNum.textContent = cash_rate.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   cashPriceNum.style.fontSize = "15px";
 
   var yourPriceNum = document.createElement('span');
   yourPriceNum.className = "number";
-  yourPriceNum.textContent = data.your_rate;
+  yourPriceNum.textContent = insurance_rate;
   yourPriceNum.style.fontSize = "15px";
 
   cashPrice.appendChild(cashPriceNum);
@@ -103,7 +157,7 @@ export function createResult(data) {
   // Construct the card
   priceInfo.appendChild(cashPrice);
 
-  if(localStorage.getItem("preferred_plan")) {
+  if(insurance_rate) {
     priceInfo.appendChild(yourPrice);
   }
   else {
@@ -124,39 +178,4 @@ export function createResult(data) {
   card.appendChild(footer);
 
   document.getElementById('data').appendChild(card);
-}
-
-
-function addPlanOption(plan) {
-  if(plan != "List Price" && plan != "Cash Price") {
-    var a = document.createElement('a');
-    a.innerText = plan;
-    a.style.cursor = "pointer";
-
-    a.addEventListener('click', function(event) {
-      event.preventDefault();
-      localStorage.setItem('preferred_plan', plan);
-      loadResults();
-    });
-
-    var dropdown = document.getElementById("plan_dropdown");
-    dropdown.appendChild(a);
-  }
-}
-
-function filterPlans() {
-  var input, filter, ul, li, a, i;
-  input = document.getElementById("plan_search");
-  filter = input.value.toUpperCase();
-  var div = document.getElementById("plan_dropdown");
-  div.style.display = "block";
-  a = div.getElementsByTagName("a");
-  for (i = 0; i < a.length; i++) {
-    var txtValue = a[i].textContent || a[i].innerText;
-    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-      a[i].style.display = "";
-    } else {
-      a[i].style.display = "none";
-    }
-  }
 }

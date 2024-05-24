@@ -12,7 +12,25 @@ exports.handler = async function(event, context) {
         const queryParams = JSON.parse(event.body);
         const filter = queryParams.filter || {};
 
-        const documents = await collection.find(filter).toArray();
+        const pipeline = [
+          { $match: filter },
+          {
+            $group: {
+              _id: "$provider",
+              documents: { $push: "$$ROOT" }
+            }
+          },
+          {
+            $project: {
+              provider: "$_id",
+              documents: { $slice: ["$documents", 10] } // limit number of results per hospital
+            }
+          },
+          { $unwind: "$documents" },
+          { $replaceRoot: { newRoot: "$documents" } }
+        ];
+
+        const documents = await collection.aggregate(pipeline).toArray();
 
         return {
             statusCode: 200,

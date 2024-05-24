@@ -1,6 +1,5 @@
 import axios from 'axios';
 import * as datedreamer from "datedreamer";
-import Swal from 'sweetalert2'
 
 import { search, loadResults } from '/js/query.js'
 

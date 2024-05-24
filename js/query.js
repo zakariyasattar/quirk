@@ -29,8 +29,8 @@ function query(treatment, zips) {
          .replace(/\n?/,"")
          .replace(/\s{2,}/g," ")
 
-	
-	const filter = { service: {$regex : treatment}, zip_code: { $in: zips } };
+
+	const filter = { service: {$regex : `\\b${treatment}\\b`, "$options": "i"}, zip_code: { $in: zips } };
 	fetch('.netlify/functions/getData', {
 			method: 'POST',
 			body: JSON.stringify({ filter }),
@@ -38,7 +38,7 @@ function query(treatment, zips) {
 	.then(response => response.json())
 	.then(data => {
 		localStorage.setItem("data", JSON.stringify(data));
-		loadResults(data);
+		loadResults();
 	})
 	.catch(error => console.error(error));
 }
