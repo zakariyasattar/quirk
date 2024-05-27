@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2'
 import zipcodes from 'zipcodes';
 
 import { createResult, removeCards } from '/js/data.js'
@@ -11,16 +12,25 @@ export function search(insurance) {
 		document.getElementById("main-default").style.display = "none";
 	}
 	else {
-		document.getElementById("no-results").style.display = "none";
-		removeCards();
-		document.getElementById("results-loading").style.display = "block";
 		var treatment = document.getElementById("results-treatment").value;
 		var zip_code = document.getElementById("results-zip-code").value;
+
+		if(treatment != "" && zip_code != "") {
+			document.getElementById("no-results").style.display = "none";
+			removeCards();
+			document.getElementById("results-loading").style.display = "block";
+		}
 	}
 
 	if(treatment != "" && zip_code != "") {
 		var rad = zipcodes.radius(parseInt(zip_code), 10);
-		query(treatment, rad);	
+		query(treatment, rad);
+	}
+	else {
+		Swal.fire({
+		  text: "Please make sure all fields have been filled out",
+		  icon: "error"
+		});
 	}
 }
 
