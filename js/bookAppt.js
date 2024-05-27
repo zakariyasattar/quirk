@@ -1,3 +1,7 @@
+// import * as datedreamer from "datedreamer";
+
+removeCalendars();
+
 function removeCalendars() {
   var calendars = document.getElementsByTagName("datedreamer-calendar");
   if(calendars.length > 0) {
@@ -9,7 +13,7 @@ function removeCalendars() {
   }
 }
 
-function makeAppointment(hospitalName, service) {
+export function makeAppointment(hospitalName, service) {
   removeCalendars();
   var resultsDiv = document.getElementById("results");
   resultsDiv.style.display = "none";

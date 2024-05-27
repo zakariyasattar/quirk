@@ -1,7 +1,7 @@
 import axios from 'axios';
-import * as datedreamer from "datedreamer";
 
 import { search, loadResults } from '/js/query.js'
+import { openInsurancePopUp, removeCards } from '/js/data.js'
 
 document.addEventListener('DOMContentLoaded', function() {
     document.getElementById("search").addEventListener('click', search);

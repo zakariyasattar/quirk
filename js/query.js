@@ -1,6 +1,6 @@
 import zipcodes from 'zipcodes';
 
-import { createResult } from '/js/data.js'
+import { createResult, removeCards } from '/js/data.js'
 
 export function search(insurance) {
 	if(document.getElementById("main").style.display != "none"){
@@ -18,8 +18,10 @@ export function search(insurance) {
 		var zip_code = document.getElementById("results-zip-code").value;
 	}
 
-	var rad = zipcodes.radius(parseInt(zip_code), 10);
-	query(treatment, rad);
+	if(treatment != "" && zip_code != "") {
+		var rad = zipcodes.radius(parseInt(zip_code), 10);
+		query(treatment, rad);	
+	}
 }
 
 function query(treatment, zips) {
@@ -38,12 +40,18 @@ function query(treatment, zips) {
 	.then(response => response.json())
 	.then(data => {
 		localStorage.setItem("data", JSON.stringify(data));
-		loadResults();
+		if(document.getElementById("main").style.display != "none") {
+			loadResults(true);
+		}
+		else {
+			loadResults(false);
+		}
+		document.getElementById("results-loading").style.display = "none";
 	})
 	.catch(error => console.error(error));
 }
 
-export function loadResults() {
+export function loadResults(first) {
 	var data = JSON.parse(localStorage.getItem("data"));
 	console.log(data)
 
@@ -60,8 +68,10 @@ export function loadResults() {
 	main.style.display = "none";
 	results.style.display = "block";
 
-	document.getElementById("results-treatment").value = lastTreatment;
-	document.getElementById("results-zip-code").value = lastZip;
+	if(first) {
+		document.getElementById("results-treatment").value = lastTreatment;
+		document.getElementById("results-zip-code").value = lastZip;
+	}
 
 	var plans = new Set();
 

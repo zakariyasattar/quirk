@@ -1,6 +1,8 @@
 import Swal from 'sweetalert2'
 
-function openInsurancePopUp() {
+import { makeAppointment } from '/js/bookAppt.js'
+
+export function openInsurancePopUp() {
   // var plans = JSON.parse(localStorage.getItem("plans"));
   var plans = [
       "Aetna",
@@ -37,6 +39,7 @@ function populate(insurance) {
 
     if(insurance[0] == "Blue Cross Blue Shield") {
         insurance.push("BCBS");
+        insurance.push("BC");
         insurance.push("Blue Cross");
     }
 
@@ -52,8 +55,6 @@ function populate(insurance) {
             var plan_name = plan.split("@")[0];
             var price = plan.split("@")[1];
 
-            console.log(plan);
-
             for(var i of insurance) {
                 if(plan_name.indexOf(i) != -1 && parseFloat(price) < parseFloat(elem.cash_rate)) {
                     sum += parseFloat(price);
@@ -62,7 +63,7 @@ function populate(insurance) {
             }
         }
 
-        if(insuranceCount != 0) {
+        if(insuranceCount != 0 && sum != 1) {
             var finalNum = (Math.round((sum / insuranceCount) * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
             elem.insurance_rate = finalNum;
 
@@ -73,7 +74,7 @@ function populate(insurance) {
     localStorage.setItem("data", JSON.stringify(data));
 }
 
-function removeCards() {
+export function removeCards() {
   var cards = document.getElementsByClassName('card');
 
   for(var card of cards) {
