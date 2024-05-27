@@ -57,6 +57,9 @@ function query(treatment, zips) {
 			loadResults(false);
 		}
 		document.getElementById("results-loading").style.display = "none";
+
+		document.getElementById("main-loading").style.display = "none";
+		document.getElementById("main-default").style.display = "block";
 	})
 	.catch(error => console.error(error));
 }
