@@ -4,6 +4,14 @@ import { search, loadResults } from '/js/query.js'
 import { openInsurancePopUp, removeCards } from '/js/data.js'
 
 document.addEventListener('DOMContentLoaded', function() {
+    
+    document.addEventListener("keypress", function(event) {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        search();
+      }
+    });
+
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("re-search").addEventListener('click', search);
     document.getElementById("change-insurance").addEventListener('click', function() {

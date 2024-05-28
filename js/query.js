@@ -8,8 +8,10 @@ export function search(insurance) {
 		var treatment = document.getElementById("treatment").value;
 		var zip_code = document.getElementById("zip-code").value;
 
-		document.getElementById("main-loading").style.display = "block";
-		document.getElementById("main-default").style.display = "none";
+		if(treatment != "" && zip_code != "") {
+			document.getElementById("main-loading").style.display = "block";
+			document.getElementById("main-default").style.display = "none";
+		}
 	}
 	else {
 		var treatment = document.getElementById("results-treatment").value;
@@ -35,14 +37,29 @@ export function search(insurance) {
 }
 
 function query(treatment, zips) {
-	treatment = treatment.toUpperCase();
-	treatment = treatment.replace(/[\*\+]/g," ")
-         .replace(/^\d+(\s+)?/,"")
-         .replace(/\n?/,"")
-         .replace(/\s{2,}/g," ")
+	treatment = treatment.split(" ");
 
+	for(var i = 0; i < treatment.length; i++) {
+		treatment[i] = treatment[i].toUpperCase();
+		treatment[i] = treatment[i].replace(/[\*\+]/g," ")
+	         .replace(/^\d+(\s+)?/,"")
+	         .replace(/\n?/,"")
+	         .replace(/\s{2,}/g," ")
+	}
 
-	const filter = { service: {$regex : `\\b${treatment}\\b`, "$options": "i"}, zip_code: { $in: zips } };
+	console.log(treatment);
+
+	const filter = {
+	    $and: [
+	        // Expand the array of conditions returned by the map function into individual elements
+	        ...treatment.map(word => ({
+	            service: { $regex: `\\b${word}\\b`, $options: "i" }
+	        })),
+	        // Add the zip code condition
+	        { zip_code: { $in: zips } }
+	    ]
+	};
+	
 	fetch('.netlify/functions/getData', {
 			method: 'POST',
 			body: JSON.stringify({ filter }),
@@ -98,6 +115,8 @@ export function loadResults(first) {
 
 		createResult(service);
 	}
+
+	console.log((plans));
 
 	localStorage.setItem("plans", JSON.stringify(plans));
 }

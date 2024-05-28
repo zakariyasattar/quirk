@@ -26,8 +26,12 @@ export function openInsurancePopUp() {
     inputValidator: (value) => {
       return new Promise((resolve) => {
         var selectedInsurance = plans[value];
-        removeCards();
-        populate([selectedInsurance]);
+        console.log(selectedInsurance);
+
+        if(selectedInsurance) {
+            removeCards();
+            populate([selectedInsurance]);
+        }
         resolve();
       });
     }
