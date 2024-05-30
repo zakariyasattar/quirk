@@ -39,7 +39,7 @@ exports.handler = async function(event, context) {
         }
 
         else {
-            documents = await collection.find(filter).limit(150).toArray();
+            documents = await collection.find(filter).toArray();
         }
 
         return {

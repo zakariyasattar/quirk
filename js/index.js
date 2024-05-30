@@ -53,6 +53,19 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
+    document.onkeydown = function checkKey(e) {
+        e = e || window.event;
+        var a = document.getElementsByTagName('a');
+
+        if (e.keyCode == '38') {
+
+        }
+        else if (e.keyCode == '40') {
+            // down arrow
+        }
+
+    }
+
     populateProviders();
 
     // loadResults();
@@ -93,13 +106,15 @@ function populateProviders() {
     'University of Illinois Hospital & Clinics'
   ]
 
+  localStorage.setItem("providers", JSON.stringify(providers));
+
   var dropdown = document.getElementById("dropdown");
 
   for(var provider of providers) {
     var a = document.createElement('a');
     a.textContent = provider;
     a.onclick = function() {
-      document.getElementById("zip-code").value = provider;
+      document.getElementById("zip-code").value = this.textContent;
       document.getElementById("dropdown").style.display = "none";
     };
     dropdown.appendChild(a);

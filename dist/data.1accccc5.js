@@ -4176,9 +4176,29 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it.return != null) it.return(); } finally { if (didErr) throw err; } } }; }
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i]; return arr2; }
-function openInsurancePopUp() {
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var Card = /*#__PURE__*/function () {
+  function Card(ref, plans, id) {
+    _classCallCheck(this, Card);
+    this.ref = document.getElementById(id);
+    this.plans = plans;
+    this.id = id;
+  }
+  return _createClass(Card, [{
+    key: "data",
+    get: function get() {
+      return [this.ref, this.plans.this.id];
+    }
+  }]);
+}();
+function openInsurancePopUp(plans, priceInfo) {
   // var plans = JSON.parse(localStorage.getItem("plans"));
-  var plans = ["Aetna", "United Healthcare", "Cigna", "Medicare", "Health Alliance", "Blue Cross Blue Shield", "Anthem", "Humana"];
+
   var _Swal$fire = _sweetalert.default.fire({
       title: "Select Insurance Plan",
       input: "select",
@@ -4190,10 +4210,9 @@ function openInsurancePopUp() {
       inputValidator: function inputValidator(value) {
         return new Promise(function (resolve) {
           var selectedInsurance = plans[value];
-          console.log(selectedInsurance);
           if (selectedInsurance) {
-            removeCards();
-            populate([selectedInsurance]);
+            var plan = selectedInsurance.split("@")[0];
+            populate(plan);
           }
           resolve();
         });
@@ -4202,43 +4221,31 @@ function openInsurancePopUp() {
     plan = _Swal$fire.value;
 }
 function populate(insurance) {
-  var data = JSON.parse(localStorage.getItem("data"));
-  if (insurance[0] == "Blue Cross Blue Shield") {
-    insurance.push("BCBS");
-    insurance.push("BC");
-    insurance.push("Blue Cross");
-  }
-  if (insurance[0] == "United Healthcare") {
-    insurance.push("UHC");
-  }
-  var _iterator = _createForOfIteratorHelper(data),
+  var cards = JSON.parse(localStorage.getItem("cards"));
+  var _iterator = _createForOfIteratorHelper(cards),
     _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var elem = _step.value;
-      var insuranceCount = 0;
-      var sum = 0;
-      var _iterator2 = _createForOfIteratorHelper(elem['plans']),
+      var card = _step.value;
+      var plans = card.plans;
+      var elem = document.getElementById(card.id);
+      var _iterator2 = _createForOfIteratorHelper(plans),
         _step2;
       try {
         for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
           var plan = _step2.value;
-          var plan_name = plan.split("@")[0];
-          var price = plan.split("@")[1];
-          var _iterator3 = _createForOfIteratorHelper(insurance),
-            _step3;
-          try {
-            for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-              var i = _step3.value;
-              if (plan_name.indexOf(i) != -1 && parseFloat(price) < parseFloat(elem.cash_rate)) {
-                sum += parseFloat(price);
-                insuranceCount++;
-              }
-            }
-          } catch (err) {
-            _iterator3.e(err);
-          } finally {
-            _iterator3.f();
+          if (plan.split("@")[0] == insurance) {
+            elem.children[1].remove();
+            var price = plan.split("@")[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            var yourPrice = document.createElement('span');
+            yourPrice.textContent = "Your Price: ";
+            var yourPriceNum = document.createElement('span');
+            yourPriceNum.className = "number";
+            yourPriceNum.textContent = price;
+            yourPriceNum.style.fontSize = "15px";
+            yourPrice.className = 'your-price';
+            yourPrice.appendChild(yourPriceNum);
+            elem.appendChild(yourPrice);
           }
         }
       } catch (err) {
@@ -4246,32 +4253,26 @@ function populate(insurance) {
       } finally {
         _iterator2.f();
       }
-      if (insuranceCount != 0 && sum != 1) {
-        var finalNum = (Math.round(sum / insuranceCount * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        elem.insurance_rate = finalNum;
-        createResult(elem);
-      }
     }
   } catch (err) {
     _iterator.e(err);
   } finally {
     _iterator.f();
   }
-  localStorage.setItem("data", JSON.stringify(data));
 }
 function removeCards() {
   var cards = document.getElementsByClassName('card');
-  var _iterator4 = _createForOfIteratorHelper(cards),
-    _step4;
+  var _iterator3 = _createForOfIteratorHelper(cards),
+    _step3;
   try {
-    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
-      var card = _step4.value;
+    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+      var card = _step3.value;
       card.remove();
     }
   } catch (err) {
-    _iterator4.e(err);
+    _iterator3.e(err);
   } finally {
-    _iterator4.f();
+    _iterator3.f();
   }
   if (document.getElementsByClassName('card').length > 0) {
     removeCards();
@@ -4279,6 +4280,7 @@ function removeCards() {
 }
 function createResult(data) {
   var card = document.createElement('div');
+  var uid = String(Date.now().toString(32) + Math.random().toString(16)).replace(/\./g, '');
   var header = document.createElement('div');
   var hospitalName = document.createElement('span');
   var priceInfo = document.createElement('div');
@@ -4323,6 +4325,7 @@ function createResult(data) {
   header.className = 'header';
   hospitalName.className = 'hospital-name';
   priceInfo.className = 'price-info';
+  priceInfo.id = uid;
   cashPrice.className = 'cash-price';
   yourPrice.className = 'your-price';
   content.className = 'content';
@@ -4336,7 +4339,7 @@ function createResult(data) {
   addInsurance.textContent = "See Your Rate";
   addInsurance.className = "add-insurance-button";
   addInsurance.onclick = function () {
-    openInsurancePopUp();
+    openInsurancePopUp(data.plans, priceInfo);
   };
 
   // Construct the card
@@ -4357,6 +4360,10 @@ function createResult(data) {
   card.appendChild(content);
   card.appendChild(footer);
   document.getElementById('data').appendChild(card);
+  var cardObj = new Card(card, data.plans, uid);
+  var cards = localStorage.getItem("cards") == null ? [] : JSON.parse(localStorage.getItem("cards"));
+  cards.push(cardObj);
+  localStorage.setItem("cards", JSON.stringify(cards));
 }
 },{"sweetalert2":"node_modules/sweetalert2/dist/sweetalert2.all.js","/js/bookAppt.js":"js/bookAppt.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -4383,7 +4390,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "63187" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64624" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

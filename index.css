@@ -164,7 +164,7 @@ input {
 }
 
 /* Change color of dropdown links on hover */
-.dropdown-content a:hover {background-color: #f1f1f1}
+.dropdown-content a:hover {background-color: #f1f1f1;}
 
 /* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
 .show {display:block;}
@@ -502,7 +502,8 @@ input {
 #results #data-header {
   font-size: 45px;
   position: relative;
-  padding-bottom: 105px;
+  margin-bottom: 30px;
+  bottom: 10px;
 }
 
 #results #data {

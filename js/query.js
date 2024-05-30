@@ -4,11 +4,13 @@ import zipcodes from 'zipcodes';
 import { createResult, removeCards } from '/js/data.js'
 
 export function search(insurance) {
+	localStorage.removeItem("cards");
+
 	if(document.getElementById("main").style.display != "none"){
 		var treatment = document.getElementById("treatment").value;
 		var zip_code = document.getElementById("zip-code").value;
 
-		if(treatment != "" && zip_code != "") {
+		if(treatment != "" && zip_code != "" && isValid(zip_code)) {
 			document.getElementById("main-loading").style.display = "block";
 			document.getElementById("main-default").style.display = "none";
 		}
@@ -17,26 +19,41 @@ export function search(insurance) {
 		var treatment = document.getElementById("results-treatment").value;
 		var zip_code = document.getElementById("results-zip-code").value;
 
-		if(treatment != "" && zip_code != "") {
+		if(treatment != "" && zip_code != "" && isValid(zip_code)) {
 			document.getElementById("no-results").style.display = "none";
 			removeCards();
 			document.getElementById("results-loading").style.display = "block";
 		}
 	}
 
-	if(treatment != "" && zip_code != "") {
-		var rad = zipcodes.radius(parseInt(zip_code), 10);
-		query(treatment, rad);
+	if(treatment != "" && zip_code != "" && isValid(zip_code)) {
+		if(zip_code.length == 5) {
+			var rad = zipcodes.radius(parseInt(zip_code), 10);
+			localStorage.removeItem("data");
+			query(treatment, rad, "");
+		}
+		else {
+			// query by hospital if user selected hospital
+			localStorage.removeItem("data");
+			query(treatment, [], zip_code);
+		}
 	}
 	else {
 		Swal.fire({
-		  text: "Please make sure all fields have been filled out",
+		  text: "Please make sure all fields have been filled out correctly",
 		  icon: "error"
 		});
 	}
 }
 
-function query(treatment, zips) {
+function isValid(zip) {
+	if(isNaN(zip)) {
+		return JSON.parse(localStorage.getItem("providers")).includes(zip);
+	}
+	return zip.length == 5;
+}
+
+function query(treatment, zips, hospitalName) {
 	treatment = treatment.split(" ");
 
 	for(var i = 0; i < treatment.length; i++) {
@@ -48,20 +65,19 @@ function query(treatment, zips) {
 	}
 
 	const filter = {
-	    $and: [
-	        ...treatment.map(word => ({
-	            service: { $regex: `\\b${word}\\b`, $options: "i" }
-	        })),
-	        { zip_code: { $in: zips } }
-	    ]
+	  $and: [
+	    ...treatment.map(word => ({
+	      service: { $regex: `\\b${word}\\b`, $options: "i" }
+	    })),
+	    ...(zips.length > 0 ? [{ zip_code: { $in: zips } }] : []),
+	    ...(hospitalName ? [{ provider: hospitalName }] : [])
+	  ]
 	};
 
 	var collection = "main";
-	if(zips[0].charAt(0) != '6') {
+	if(zips.length != 0 && zips[0].charAt(0) != '6') {
 		collection = "sample"
 	}
-
-	console.log(zips);
 
 	fetch('.netlify/functions/getData', {
 			method: 'POST',
@@ -72,7 +88,6 @@ function query(treatment, zips) {
 	})
 	.then(response => response.json())
 	.then(data => {
-		console.log(data)
 		localStorage.setItem("data", JSON.stringify(data));
 
 		if(document.getElementById("main").style.display != "none") {
@@ -94,6 +109,9 @@ export function loadResults(first) {
 
 	if(data.length == 0) {
 		document.getElementById("no-results").style.display = "block";
+	}
+	else {
+		document.getElementById("no-results").style.display = "none";
 	}
 
 	var main = document.getElementById("main");

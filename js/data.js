@@ -2,18 +2,21 @@ import Swal from 'sweetalert2'
 
 import { makeAppointment } from '/js/bookAppt.js'
 
-export function openInsurancePopUp() {
+class Card {
+  constructor(ref, plans, id) {
+    this.ref = document.getElementById(id);
+    this.plans = plans;
+    this.id = id;
+  }
+
+  get data() {
+    return [this.ref, this.plans. this.id];
+  }
+
+}
+
+export function openInsurancePopUp(plans, priceInfo) {
   // var plans = JSON.parse(localStorage.getItem("plans"));
-  var plans = [
-      "Aetna",
-      "United Healthcare",
-      "Cigna",
-      "Medicare",
-      "Health Alliance",
-      "Blue Cross Blue Shield",
-      "Anthem",
-      "Humana"
-    ]
 
   const { value: plan } = Swal.fire({
     title: "Select Insurance Plan",
@@ -26,11 +29,11 @@ export function openInsurancePopUp() {
     inputValidator: (value) => {
       return new Promise((resolve) => {
         var selectedInsurance = plans[value];
-        console.log(selectedInsurance);
 
         if(selectedInsurance) {
-            removeCards();
-            populate([selectedInsurance]);
+          var plan = selectedInsurance.split("@")[0];
+
+          populate(plan);
         }
         resolve();
       });
@@ -39,43 +42,33 @@ export function openInsurancePopUp() {
 }
 
 function populate(insurance) {
-    var data = JSON.parse(localStorage.getItem("data"));
+  var cards = JSON.parse(localStorage.getItem("cards"));
 
-    if(insurance[0] == "Blue Cross Blue Shield") {
-        insurance.push("BCBS");
-        insurance.push("BC");
-        insurance.push("Blue Cross");
+  for(var card of cards) {
+    var plans = card.plans;
+    var elem = document.getElementById(card.id);
+
+
+    for(var plan of plans) {
+      if(plan.split("@")[0] == insurance) {
+        elem.children[1].remove();
+        var price = plan.split("@")[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+
+        var yourPrice = document.createElement('span');
+        yourPrice.textContent = "Your Price: ";
+
+        var yourPriceNum = document.createElement('span');
+        yourPriceNum.className = "number";
+        yourPriceNum.textContent = price;
+        yourPriceNum.style.fontSize = "15px";
+        yourPrice.className = 'your-price';
+
+        yourPrice.appendChild(yourPriceNum);
+        elem.appendChild(yourPrice);
+
+      }
     }
-
-    if(insurance[0] == "United Healthcare") {
-        insurance.push("UHC");
-    }
-
-    for(var elem of data) {
-        var insuranceCount = 0;
-        var sum = 0;
-
-        for(var plan of elem['plans']) {
-            var plan_name = plan.split("@")[0];
-            var price = plan.split("@")[1];
-
-            for(var i of insurance) {
-                if(plan_name.indexOf(i) != -1 && parseFloat(price) < parseFloat(elem.cash_rate)) {
-                    sum += parseFloat(price);
-                    insuranceCount++;
-                }
-            }
-        }
-
-        if(insuranceCount != 0 && sum != 1) {
-            var finalNum = (Math.round((sum / insuranceCount) * 100) / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            elem.insurance_rate = finalNum;
-
-            createResult(elem);
-        }
-    }
-
-    localStorage.setItem("data", JSON.stringify(data));
+  }
 }
 
 export function removeCards() {
@@ -92,6 +85,12 @@ export function removeCards() {
 
 export function createResult(data) {
   const card = document.createElement('div');
+
+  const uid = String(
+      Date.now().toString(32) +
+        Math.random().toString(16)
+    ).replace(/\./g, '')
+
   const header = document.createElement('div');
   const hospitalName = document.createElement('span');
   const priceInfo = document.createElement('div');
@@ -141,7 +140,10 @@ export function createResult(data) {
   card.className = 'card';
   header.className = 'header';
   hospitalName.className = 'hospital-name';
+
   priceInfo.className = 'price-info';
+  priceInfo.id = uid;
+
   cashPrice.className = 'cash-price';
   yourPrice.className = 'your-price';
   content.className = 'content';
@@ -156,7 +158,7 @@ export function createResult(data) {
   addInsurance.textContent = "See Your Rate";
   addInsurance.className = "add-insurance-button";
   addInsurance.onclick = function() {
-    openInsurancePopUp();
+    openInsurancePopUp(data.plans, priceInfo);
   }
 
   // Construct the card
@@ -183,4 +185,10 @@ export function createResult(data) {
   card.appendChild(footer);
 
   document.getElementById('data').appendChild(card);
+
+  var cardObj = new Card(card, data.plans, uid);
+  var cards = localStorage.getItem("cards") == null ? [] : JSON.parse(localStorage.getItem("cards"));
+  cards.push(cardObj);
+  localStorage.setItem("cards", JSON.stringify(cards));
+
 }
