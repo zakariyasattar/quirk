@@ -46,10 +46,37 @@ document.addEventListener('DOMContentLoaded', function() {
 
     });
 
+    document.getElementById("results-zip-code").addEventListener('input', function (evt) {
+        var value = this.value;
+
+        if(isNaN(value) && !(value.charAt(0) >= '0' && value.charAt(0) <= '9')) {
+            document.getElementById("results-dropdown").style.display = "block";
+            filterFunction();
+        }
+        else {
+            document.getElementById("results-dropdown").style.display = "none";
+        }
+    });
+
+    document.getElementById("results-zip-code").addEventListener('focus', function (evt) {
+
+      if(isNaN(evt.target.value)) {
+        document.getElementById('results-dropdown').style.display = "block";
+        filterFunction();
+      }
+
+    });
+
     document.addEventListener('mousedown', function(event) {
       var dropdown = document.getElementById('dropdown');
+      var resDropdown = document.getElementById('results-dropdown');
+
       if (!dropdown.contains(event.target)) {
         dropdown.style.display = 'none';
+      }
+
+      if (!resDropdown.contains(event.target)) {
+        resDropdown.style.display = 'none';
       }
     });
 
@@ -68,7 +95,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateProviders();
 
-    // loadResults();
+    loadResults();
     // makeAppointment();
 });
 
@@ -109,15 +136,19 @@ function populateProviders() {
   localStorage.setItem("providers", JSON.stringify(providers));
 
   var dropdown = document.getElementById("dropdown");
+  var resDropdown = document.getElementById("results-dropdown");
 
   for(var provider of providers) {
     var a = document.createElement('a');
     a.textContent = provider;
     a.onclick = function() {
       document.getElementById("zip-code").value = this.textContent;
+      document.getElementById("results-zip-code").value = this.textContent;
       document.getElementById("dropdown").style.display = "none";
+      document.getElementById("results-dropdown").style.display = "none";
     };
     dropdown.appendChild(a);
+    resDropdown.appendChild(a);
   }
 }
 

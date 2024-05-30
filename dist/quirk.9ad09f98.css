@@ -292,6 +292,18 @@ input {
   margin-bottom: 30px;
 }
 
+#results-dropdown {
+  top: 28vh;
+  right: 19.4%;
+  position: absolute;
+  border-radius: 3px;
+  z-index: 10;
+  max-height: 33vh;
+  width: 30%;
+  overflow: auto;
+  /* display: none; */
+}
+
 #results #re-search {
   width: 90%;
   position: relative;
@@ -370,7 +382,6 @@ input {
 	 transition-delay: 0s, 0.25s, 0s;
 }
 
-
 .center {
   height: 15vh;
   display: flex;
@@ -425,21 +436,6 @@ input {
   100% {
     transform: scale(0);
   }
-}
-
-/* Dropdown Button */
-.dropbtn {
- background-color: #04AA6D;
- color: white;
- padding: 16px;
- font-size: 16px;
- border: none;
- cursor: pointer;
-}
-
-/* Dropdown button on hover & focus */
-.dropbtn:hover, .dropbtn:focus {
- background-color: #3e8e41;
 }
 
 /* The search field */
