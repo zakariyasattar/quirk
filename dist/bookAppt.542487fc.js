@@ -203,6 +203,11 @@ function makeAppointment(hospitalName, service) {
       document.getElementById("results").style.display = "block";
     });
   });
+  document.getElementById("exit-book-appointment").addEventListener('click', function () {
+    console.log("hello");
+    document.getElementById("appointment").style.display = "none";
+    document.getElementById("results").style.display = "block";
+  });
 }
 },{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
@@ -229,7 +234,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64624" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53614" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

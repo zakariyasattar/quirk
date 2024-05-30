@@ -4160,6 +4160,11 @@ function makeAppointment(hospitalName, service) {
       document.getElementById("results").style.display = "block";
     });
   });
+  document.getElementById("exit-book-appointment").addEventListener('click', function () {
+    console.log("hello");
+    document.getElementById("appointment").style.display = "none";
+    document.getElementById("results").style.display = "block";
+  });
 }
 },{}],"js/data.js":[function(require,module,exports) {
 "use strict";
@@ -4197,13 +4202,24 @@ var Card = /*#__PURE__*/function () {
   }]);
 }();
 function openInsurancePopUp(plans, priceInfo) {
-  // var plans = JSON.parse(localStorage.getItem("plans"));
-
+  var formattedPlans = [];
+  var _iterator = _createForOfIteratorHelper(plans),
+    _step;
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var p = _step.value;
+      formattedPlans.push(p.substring(0, p.indexOf("@")));
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
   var _Swal$fire = _sweetalert.default.fire({
       title: "Select Insurance Plan",
       input: "select",
       inputOptions: {
-        Insurance: plans
+        Insurance: formattedPlans
       },
       inputPlaceholder: "Select A Plan",
       showCancelButton: true,
@@ -4222,18 +4238,18 @@ function openInsurancePopUp(plans, priceInfo) {
 }
 function populate(insurance) {
   var cards = JSON.parse(localStorage.getItem("cards"));
-  var _iterator = _createForOfIteratorHelper(cards),
-    _step;
+  var _iterator2 = _createForOfIteratorHelper(cards),
+    _step2;
   try {
-    for (_iterator.s(); !(_step = _iterator.n()).done;) {
-      var card = _step.value;
+    for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+      var card = _step2.value;
       var plans = card.plans;
       var elem = document.getElementById(card.id);
-      var _iterator2 = _createForOfIteratorHelper(plans),
-        _step2;
+      var _iterator3 = _createForOfIteratorHelper(plans),
+        _step3;
       try {
-        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
-          var plan = _step2.value;
+        for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
+          var plan = _step3.value;
           if (plan.split("@")[0] == insurance) {
             elem.children[1].remove();
             var price = plan.split("@")[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -4249,30 +4265,30 @@ function populate(insurance) {
           }
         }
       } catch (err) {
-        _iterator2.e(err);
+        _iterator3.e(err);
       } finally {
-        _iterator2.f();
+        _iterator3.f();
       }
     }
   } catch (err) {
-    _iterator.e(err);
+    _iterator2.e(err);
   } finally {
-    _iterator.f();
+    _iterator2.f();
   }
 }
 function removeCards() {
   var cards = document.getElementsByClassName('card');
-  var _iterator3 = _createForOfIteratorHelper(cards),
-    _step3;
+  var _iterator4 = _createForOfIteratorHelper(cards),
+    _step4;
   try {
-    for (_iterator3.s(); !(_step3 = _iterator3.n()).done;) {
-      var card = _step3.value;
+    for (_iterator4.s(); !(_step4 = _iterator4.n()).done;) {
+      var card = _step4.value;
       card.remove();
     }
   } catch (err) {
-    _iterator3.e(err);
+    _iterator4.e(err);
   } finally {
-    _iterator3.f();
+    _iterator4.f();
   }
   if (document.getElementsByClassName('card').length > 0) {
     removeCards();
@@ -4386,7 +4402,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "64624" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "53614" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

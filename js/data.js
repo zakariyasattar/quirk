@@ -16,13 +16,17 @@ class Card {
 }
 
 export function openInsurancePopUp(plans, priceInfo) {
-  // var plans = JSON.parse(localStorage.getItem("plans"));
+  var formattedPlans = []
+
+  for(var p of plans) {
+    formattedPlans.push(p.substring(0, p.indexOf("@")));
+  }
 
   const { value: plan } = Swal.fire({
     title: "Select Insurance Plan",
     input: "select",
     inputOptions: {
-      Insurance: plans
+      Insurance: formattedPlans
     },
     inputPlaceholder: "Select A Plan",
     showCancelButton: true,

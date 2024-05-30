@@ -95,4 +95,10 @@ export function makeAppointment(hospitalName, service) {
 
   });
 
+  document.getElementById("exit-book-appointment").addEventListener('click', function() {
+    console.log("hello");
+    document.getElementById("appointment").style.display = "none";
+    document.getElementById("results").style.display = "block";
+  });
+
 }
