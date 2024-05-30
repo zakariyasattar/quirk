@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { search, loadResults } from '/js/query.js'
 import { openInsurancePopUp, removeCards } from '/js/data.js'
-import { makeAppointment } from '/js/bookAppt.js'
+// import { makeAppointment } from '/js/bookAppt.js'
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if(isNaN(value) && !(value.charAt(0) >= '0' && value.charAt(0) <= '9')) {
             document.getElementById("results-dropdown").style.display = "block";
-            filterFunction();
+            filterFunctionResults();
         }
         else {
             document.getElementById("results-dropdown").style.display = "none";
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if(isNaN(evt.target.value)) {
         document.getElementById('results-dropdown').style.display = "block";
-        filterFunction();
+        filterFunctionResults();
       }
 
     });
@@ -144,12 +144,17 @@ function populateProviders() {
     a.textContent = provider;
     a.onclick = function() {
       document.getElementById("zip-code").value = this.textContent;
-      document.getElementById("results-zip-code").value = this.textContent;
       document.getElementById("dropdown").style.display = "none";
+    };
+
+    var resA = document.createElement('a');
+    resA.textContent = provider;
+    resA.onclick = function() {
+      document.getElementById("results-zip-code").value = this.textContent;
       document.getElementById("results-dropdown").style.display = "none";
     };
     dropdown.appendChild(a);
-    resDropdown.appendChild(a);
+    resDropdown.appendChild(resA);
   }
 }
 
@@ -178,4 +183,30 @@ function filterFunction() {
     document.getElementById("dropdown").appendChild(a);
   }
 
+}
+
+function filterFunctionResults() {
+  var input, filter, ul, li, a, i;
+  input = document.getElementById("results-zip-code");
+  filter = input.value.toUpperCase();
+  var div = document.getElementById("results-dropdown");
+  a = div.getElementsByTagName("a");
+
+  var hiddenCounter = 0;
+
+  for (i = 0; i < a.length; i++) {
+    var txtValue = a[i].textContent || a[i].innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      a[i].style.display = "";
+    } else {
+      a[i].style.display = "none";
+      hiddenCounter++;
+    }
+  }
+
+  if(hiddenCounter == a.length) {
+    var a = document.createElement('a');
+    a.textContent = "No Results";
+    document.getElementById("results-dropdown").appendChild(a);
+  }
 }
