@@ -114,6 +114,38 @@ input {
   font-size: 16px;
 }
 
+#dropdown {
+  top: 23.5vh;
+  right: 9.5%;
+  position: absolute;
+  border-radius: 3px;
+  z-index: 10;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  background-color: #f6f6f6;
+  border: 1px solid #ddd;
+  z-index: 1;
+  width: 80.8%;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  position: relative;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+/* Show the dropdown menu (use JS to add this class to the .dropdown-content container when the user clicks on the dropdown button) */
+.show {display:block;}
+
 #main #search {
   position: relative;
   top: 15vh;

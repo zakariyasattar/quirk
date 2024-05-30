@@ -47,26 +47,34 @@ function query(treatment, zips) {
 	         .replace(/\s{2,}/g," ")
 	}
 
-	console.log(treatment);
-
 	const filter = {
 	    $and: [
-	        // Expand the array of conditions returned by the map function into individual elements
 	        ...treatment.map(word => ({
 	            service: { $regex: `\\b${word}\\b`, $options: "i" }
 	        })),
-	        // Add the zip code condition
 	        { zip_code: { $in: zips } }
 	    ]
 	};
-	
+
+	var collection = "main";
+	if(zips[0].charAt(0) != '6') {
+		collection = "sample"
+	}
+
+	console.log(zips);
+
 	fetch('.netlify/functions/getData', {
 			method: 'POST',
-			body: JSON.stringify({ filter }),
+			body: JSON.stringify({
+				filter,
+				collectionName: collection
+			 }),
 	})
 	.then(response => response.json())
 	.then(data => {
+		console.log(data)
 		localStorage.setItem("data", JSON.stringify(data));
+
 		if(document.getElementById("main").style.display != "none") {
 			loadResults(true);
 		}
@@ -83,7 +91,6 @@ function query(treatment, zips) {
 
 export function loadResults(first) {
 	var data = JSON.parse(localStorage.getItem("data"));
-	console.log(data)
 
 	if(data.length == 0) {
 		document.getElementById("no-results").style.display = "block";
@@ -108,15 +115,15 @@ export function loadResults(first) {
 	for(var service of data) {
 		var insurance_plans = service["plans"];
 
-		for(var plan of insurance_plans) {
-			var plan_name = plan.substring(0, plan.indexOf("@"));
-			plans.add(plan_name);
+		if(insurance_plans != null) {
+			for(var plan of insurance_plans) {
+				var plan_name = plan.substring(0, plan.indexOf("@"));
+				plans.add(plan_name);
+			}
 		}
 
 		createResult(service);
 	}
-
-	console.log((plans));
 
 	localStorage.setItem("plans", JSON.stringify(plans));
 }

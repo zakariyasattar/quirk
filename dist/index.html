@@ -9,6 +9,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/jquery"></script>
 
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
     <link rel="stylesheet" type="text/css" href="/quirk.9ad09f98.css">
 
     <script src="/query.e99aa927.js"></script>
@@ -60,8 +63,20 @@
 
       <div id="input">
         <center>
-          <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-searchIcon.233c604eaa81.svg') no-repeat scroll 7px 7px" type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
-          <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-locationIcon.00019fc2f62c.svg') no-repeat scroll 7px 7px" type="text" id="zip-code" name="" value="" placeholder="Zip Code">
+            <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-searchIcon.233c604eaa81.svg') no-repeat scroll 7px 7px" type="text" id="treatment" name="" value="" placeholder="Name of Treatment">
+            <input style="padding-left: 40px; background:url('https://static.turquoise.health/static/images/newHome-locationIcon.00019fc2f62c.svg') no-repeat scroll 7px 7px" type="text" id="zip-code" name="zip-code" placeholder="Zip Code or Hospital Name">
+
+            <div id="dropdown" class="dropdown-content show">
+
+                <a href="#about">About</a>
+                <a href="#base">Base</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Contact</a>
+                <a href="#custom">Custom</a>
+                <a href="#support">Support</a>
+                <a href="#tools">Tools</a>
+            </div>
+
           <button id="search">
             <div id="main-loading" style="display: none;">
               <i class="fa fa-circle-o-notch fa-spin"></i>
@@ -76,7 +91,7 @@
     <div id="results" style="display: none">
       <center><div id="input">
         <input type="text" id="results-treatment" name="" value="" placeholder="Name of Treatment">
-        <input type="text" id="results-zip-code" name="" value="" placeholder="Zip Code" style="margin-left: 15px;"><br>
+        <input type="text" id="results-zip-code" name="" value="" placeholder="Zip Code or Hospital Name" style="margin-left: 15px;"><br>
         <button id="re-search" class="btn draw-border">Search Options</button>
         <button id="change-insurance" class="btn draw-border">Update Insurance Plan</button>
       </div></center>

@@ -7,30 +7,40 @@ exports.handler = async function(event, context) {
     try {
         await client.connect();
         const database = client.db('quirk');
-        const collection = database.collection('main');
 
         const queryParams = JSON.parse(event.body);
+
+        const collectionName = queryParams.collectionName || 'main';
+        const collection = database.collection(collectionName);
+
         const filter = queryParams.filter || {};
+        let documents;
 
-        const pipeline = [
-          { $match: filter },
-          {
-            $group: {
-              _id: "$provider",
-              documents: { $push: "$$ROOT" }
-            }
-          },
-          {
-            $project: {
-              provider: "$_id",
-              documents: { $slice: ["$documents", 10] } // limit number of results per hospital
-            }
-          },
-          { $unwind: "$documents" },
-          { $replaceRoot: { newRoot: "$documents" } }
-        ];
+        if(collectionName == 'main') {
+            const pipeline = [
+              { $match: filter },
+              {
+                $group: {
+                  _id: "$provider",
+                  documents: { $push: "$$ROOT" }
+                }
+              },
+              {
+                $project: {
+                  provider: "$_id",
+                  documents: { $slice: ["$documents", 10] } // limit number of results per hospital
+                }
+              },
+              { $unwind: "$documents" },
+              { $replaceRoot: { newRoot: "$documents" } }
+            ];
 
-        const documents = await collection.aggregate(pipeline).toArray();
+            documents = await collection.aggregate(pipeline).toArray();
+        }
+
+        else {
+            documents = await collection.find(filter).limit(150).toArray();
+        }
 
         return {
             statusCode: 200,
