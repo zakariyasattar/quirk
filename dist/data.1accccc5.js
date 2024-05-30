@@ -4344,11 +4344,7 @@ function createResult(data) {
 
   // Construct the card
   priceInfo.appendChild(cashPrice);
-  if (insurance_rate) {
-    priceInfo.appendChild(yourPrice);
-  } else {
-    priceInfo.appendChild(addInsurance);
-  }
+  priceInfo.appendChild(addInsurance);
   header.appendChild(hospitalName);
   header.appendChild(priceInfo);
   serviceInfo.appendChild(serviceTitle);
