@@ -5,6 +5,8 @@ import { createResult, removeCards } from '/js/data.js'
 
 export function search(insurance) {
 	localStorage.removeItem("cards");
+	localStorage.removeItem("data");
+	removeCards();
 
 	if(document.getElementById("main").style.display != "none"){
 		var treatment = document.getElementById("treatment").value;
