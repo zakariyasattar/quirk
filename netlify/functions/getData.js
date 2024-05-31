@@ -1,7 +1,8 @@
 const { MongoClient } = require('mongodb');
 
 exports.handler = async function(event, context) {
-    const uri = "mongodb+srv://quirkhealth:gMBBJZYbw346wpk9@quirk-main.yygw4d6.mongodb.net/?retryWrites=true&w=majority&appName=quirk-main";
+
+    const uri = "mongodb+srv://zak:dlbwlOdOSMqVKHo9@quirk-main.yygw4d6.mongodb.net/?retryWrites=true&w=majority&appName=quirk-main";
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
@@ -28,7 +29,7 @@ exports.handler = async function(event, context) {
               {
                 $project: {
                   provider: "$_id",
-                  documents: { $slice: ["$documents", 100] } // limit number of results per hospital
+                  documents: { $slice: ["$documents", 10] } // limit number of results per hospital
                 }
               },
               { $unwind: "$documents" },
