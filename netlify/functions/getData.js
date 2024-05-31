@@ -28,7 +28,7 @@ exports.handler = async function(event, context) {
               {
                 $project: {
                   provider: "$_id",
-                  documents: { $slice: ["$documents", 10] } // limit number of results per hospital
+                  documents: { $slice: ["$documents", 100] } // limit number of results per hospital
                 }
               },
               { $unwind: "$documents" },
