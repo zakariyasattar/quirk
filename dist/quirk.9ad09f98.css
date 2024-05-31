@@ -3,7 +3,7 @@ body {
   font-family: "Sedan", serif;
   /* font-family: "proxima-nova", sans-serif; */
   /* background: #e1e4f5; */
-  background: #ffd380;
+  background: #edf2fa;
   /* #efe8fa */
   color: #1f1235;
 }
@@ -40,10 +40,10 @@ input {
   width: 100%;
   border-radius: 10px;
   padding-top: 10px;
-  padding-bottom: 10px;
+  padding-bottom: 150px;
+
   /* background: #232946; */
-  background: #f0975b;
-  box-shadow: var(--shadow-elevation-low);
+  /* background: #ccdbfd; */
 }
 
 #company-name {
@@ -52,8 +52,9 @@ input {
   font-size: 70px;
   font-family: "Space Grotesk", sans-serif;
   margin: 0;
-  color: #fffffe;
+  color: black;
   cursor: pointer;
+  float: left;
 
 }
 
@@ -79,12 +80,12 @@ input {
 #contact-provider {
   width: 12%;
   height: 6vh;
-  float: left;
   border: 1px solid black;
   font-size: 15px;
 
   margin-left: 40px;
   margin-top: 20px;
+  float: right;
 
   background: #eebbc3;
   box-shadow: 4px 4px black;
