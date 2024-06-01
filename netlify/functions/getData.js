@@ -2,7 +2,7 @@ const { MongoClient } = require('mongodb');
 
 exports.handler = async function(event, context) {
 
-    const uri = "mongodb+srv://zak:dlbwlOdOSMqVKHo9@quirk-main.yygw4d6.mongodb.net/?retryWrites=true&w=majority&appName=quirk-main";
+    const uri = "mongodb+srv://zakariyasattar03:xwx5V85aBj5T1jxM@main.i1cpqxh.mongodb.net/?retryWrites=true&w=majority&appName=main";
     const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
     try {
