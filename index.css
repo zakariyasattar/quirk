@@ -38,12 +38,19 @@ input {
 
 #top-banner {
   width: 100%;
-  border-radius: 10px;
-  padding-top: 10px;
-  padding-bottom: 150px;
+  top: 0;
+  left: 0;
 
-  /* background: #232946; */
-  /* background: #ccdbfd; */
+  position: absolute;
+  padding-top: 10px;
+  padding-bottom: 20px;
+
+  background-image: linear-gradient(
+    180deg,
+    hsl(222deg 92% 90%) 0%,
+    hsl(221deg 82% 93%) 50%,
+    hsl(217deg 57% 95%) 100%
+  );
 }
 
 #company-name {
@@ -54,7 +61,6 @@ input {
   margin: 0;
   color: black;
   cursor: pointer;
-  float: left;
 
 }
 
@@ -85,7 +91,7 @@ input {
 
   margin-left: 40px;
   margin-top: 20px;
-  float: right;
+  float: left;
 
   background: #eebbc3;
   box-shadow: 4px 4px black;
@@ -98,10 +104,15 @@ input {
         MAIN
 ///////////////////// */
 
+#main {
+  position: relative;
+  top: 25vh;
+}
+
 #main #header {
-  font-size: 45px;
-  margin-left: 10%;
-  margin-top: 7vh;
+  font-size: 35px;
+  margin-left: 20%;
+  position: relative;
   width: 90%;
   font-family: "Merriweather", serif;
   color: #232946;
