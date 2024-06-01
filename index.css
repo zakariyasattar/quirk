@@ -723,3 +723,101 @@ input {
   background: #ffd87d;
 
 }
+
+/* /////////////////////
+    MOBILE
+///////////////////// */
+
+@media screen and (max-width: 800px) {
+  #company-name {
+    font-size: 50px;
+  }
+
+  #top-banner {
+    width: 105%;
+  }
+
+  #contact-provider {
+    display: none;
+  }
+
+  #sign-up {
+    float: right;
+    width: 100px;
+    position: absolute;
+    top: 30px;
+    display: none;
+  }
+
+  #main {
+    top: 15vh;
+    margin: 0;
+  }
+
+  #main #header {
+    font-size: 35px;
+    position: relative;
+    float: right;
+    width: 90%;
+
+    font-family: "Merriweather", serif;
+    color: #232946;
+  }
+
+  #main #input {
+    width: 95%;
+    margin-right: 10px;
+    height: 40vh;
+  }
+
+  #main-img {
+    display: none;
+  }
+
+  #results input {
+    width: 86vw;
+    padding-left: 10px;
+    position: relative;
+    left: -100px;
+  }
+
+  #results #input {
+    position: relative;
+    top: -30px;
+  }
+
+  #results #results-treatment {
+    position: relative;
+    left: -85px;
+  }
+
+  #results #re-search {
+    width: 90vw;
+    position: relative;
+    left: -85px;
+  }
+
+  #results #data {
+    width: 100vw;
+  }
+
+  #results .card {
+    width: 90vw;
+  }
+
+  #results-dropdown {
+    top: 13.5vh;
+    left: -85px;
+    width: 89.5vw;
+  }
+
+  #appointment {
+    width: 100vw;
+  }
+
+  #user-data {
+    width: 90vw;
+    position: absolute;
+  }
+
+}
