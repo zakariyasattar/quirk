@@ -7,7 +7,7 @@ export function search(insurance) {
 	localStorage.removeItem("cards");
 	localStorage.removeItem("data");
 	removeCards();
-
+	
 	if(document.getElementById("main").style.display != "none"){
 		var treatment = document.getElementById("treatment").value;
 		var zip_code = document.getElementById("zip-code").value;
@@ -30,8 +30,10 @@ export function search(insurance) {
 
 	if(treatment != "" && zip_code != "" && isValid(zip_code)) {
 		if(zip_code.length == 5) {
-			var rad = zipcodes.radius(parseInt(zip_code), 10);
+			var rad = zipcodes.radius(parseInt(zip_code), 15);
 			localStorage.removeItem("data");
+
+			console.log(rad);
 			query(treatment, rad, "");
 		}
 		else {
@@ -66,7 +68,9 @@ function query(treatment, zips, hospitalName) {
 	         .replace(/\s{2,}/g," ")
 	}
 
-	const filter = {
+	let filter;
+
+	filter = {
 	  $and: [
 	    ...treatment.map(word => ({
 	      service: { $regex: `\\b${word}\\b`, $options: "i" }
@@ -79,6 +83,17 @@ function query(treatment, zips, hospitalName) {
 	var collection = "main";
 	if(zips.length != 0 && zips[0].charAt(0) != '6') {
 		collection = "sample"
+
+		// zip codes are stored in sample db as nums, not strings
+		filter = {
+			$and: [
+			  ...treatment.map(word => ({
+				service: { $regex: `\\b${word}\\b`, $options: "i" }
+			  })),
+			  ...(zips.length > 0 ? [{ zip_code: { $in: zips.map(zip => parseInt(zip, 10)) } }] : []),
+			  ...(hospitalName ? [{ provider: hospitalName }] : [])
+			]
+		  };
 	}
 
 	fetch('.netlify/functions/getData', {
@@ -135,11 +150,9 @@ export function loadResults(first) {
 	for(var service of data) {
 		var insurance_plans = service["plans"];
 
-		if(insurance_plans != null) {
-			for(var plan of insurance_plans) {
-				var plan_name = plan.substring(0, plan.indexOf("@"));
-				plans.add(plan_name);
-			}
+		for(var plan of insurance_plans) {
+			var plan_name = plan.substring(0, plan.indexOf("@"));
+			plans.add(plan_name);
 		}
 
 		createResult(service);

@@ -4312,8 +4312,11 @@ function createResult(data) {
   var hospital = data.provider;
   var address = data.street_address + ", " + data.city + ", " + data.state + ", " + data.zip_code;
   var service = data.service;
-  var cash_rate = data.cash_rate == null ? data.rate : data.cash_rate;
+  var cash_rate = data.cash_rate;
   var insurance_rate = data.insurance_rate;
+  if (cash_rate == null) {
+    return;
+  }
 
   // Set text contents and attributes
   hospitalName.textContent = hospital;
@@ -4402,7 +4405,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55372" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45869" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

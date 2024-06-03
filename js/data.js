@@ -111,8 +111,12 @@ export function createResult(data) {
   var hospital = data.provider;
   var address = data.street_address + ", " + data.city + ", " + data.state + ", " + data.zip_code;
   var service = data.service;
-  var cash_rate = data.cash_rate == null ? data.rate : data.cash_rate;
+  var cash_rate = data.cash_rate;
   var insurance_rate = data.insurance_rate;
+
+  if(cash_rate == null) {
+    return;
+  }
 
   // Set text contents and attributes
   hospitalName.textContent = hospital;

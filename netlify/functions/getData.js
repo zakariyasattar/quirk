@@ -15,33 +15,26 @@ exports.handler = async function(event, context) {
         const collection = database.collection(collectionName);
 
         const filter = queryParams.filter || {};
-        let documents;
 
-        if(collectionName == 'main') {
-            const pipeline = [
-              { $match: filter },
-              {
-                $group: {
-                  _id: "$provider",
-                  documents: { $push: "$$ROOT" }
-                }
-              },
-              {
-                $project: {
-                  provider: "$_id",
-                  documents: { $slice: ["$documents", 10] } // limit number of results per hospital
-                }
-              },
-              { $unwind: "$documents" },
-              { $replaceRoot: { newRoot: "$documents" } }
-            ];
+        const pipeline = [
+          { $match: filter },
+          {
+            $group: {
+              _id: "$provider",
+              documents: { $push: "$$ROOT" }
+            }
+          },
+          {
+            $project: {
+              provider: "$_id",
+              documents: { $slice: ["$documents", 10] } // limit number of results per hospital
+            }
+          },
+          { $unwind: "$documents" },
+          { $replaceRoot: { newRoot: "$documents" } }
+        ];
 
-            documents = await collection.aggregate(pipeline).toArray();
-        }
-
-        else {
-            documents = await collection.find(filter).toArray();
-        }
+        const documents = await collection.aggregate(pipeline).toArray();
 
         return {
             statusCode: 200,
