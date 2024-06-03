@@ -55,10 +55,17 @@ function populate(insurance) {
 
     for(var plan of plans) {
       if(plan.split("@")[0] == insurance) {
-        elem.children[1].remove();
+        var buttonId = 'id' + (new Date()).getTime();
+        var yourPriceId = 'ix' + (new Date()).getTime();
+
+        var button = elem.children[1];
+        button.style.display = "none";
+        button.id = buttonId;
+
         var price = plan.split("@")[1].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
         var yourPrice = document.createElement('span');
+        yourPrice.id = yourPriceId;
         yourPrice.textContent = "Your Price: ";
 
         var yourPriceNum = document.createElement('span');
@@ -68,7 +75,18 @@ function populate(insurance) {
         yourPrice.className = 'your-price';
 
         yourPrice.appendChild(yourPriceNum);
+
         elem.appendChild(yourPrice);
+        
+        document.getElementById(yourPriceId).onmouseover = function() {
+          document.getElementById(buttonId).style.display = "block";
+          document.getElementById(yourPriceId).style.display = "none";
+        }
+
+        document.getElementById(yourPriceId).onmouseout = function() {
+          document.getElementById(buttonId).style.display = "none";
+          document.getElementById(yourPriceId).style.display = "block";
+        }
 
       }
     }
