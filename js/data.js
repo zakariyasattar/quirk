@@ -77,7 +77,7 @@ function populate(insurance) {
         yourPrice.appendChild(yourPriceNum);
 
         elem.appendChild(yourPrice);
-        
+
         document.getElementById(yourPriceId).onmouseover = function() {
           document.getElementById(buttonId).style.display = "block";
           document.getElementById(yourPriceId).style.display = "none";
@@ -132,7 +132,7 @@ export function createResult(data) {
   var cash_rate = data.cash_rate;
   var insurance_rate = data.insurance_rate;
 
-  if(cash_rate == null) {
+  if(cash_rate == null || data.plans.length == 0) {
     return;
   }
 

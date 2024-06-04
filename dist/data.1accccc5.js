@@ -4327,7 +4327,7 @@ function createResult(data) {
   var service = data.service;
   var cash_rate = data.cash_rate;
   var insurance_rate = data.insurance_rate;
-  if (cash_rate == null) {
+  if (cash_rate == null || data.plans.length == 0) {
     return;
   }
 
