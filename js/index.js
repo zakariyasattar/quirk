@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { search, loadResults } from '/js/query.js'
-import { openInsurancePopUp, removeCards } from '/js/data.js'
+import { resetInsurance, openInsurancePopUp, removeCards } from '/js/data.js'
 
 // import { makeAppointment } from '/js/bookAppt.js'
 
@@ -16,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     document.getElementById("search").addEventListener('click', search);
     document.getElementById("re-search").addEventListener('click', search);
-    // document.getElementById("change-insurance").addEventListener('click', function() {
-    //   openInsurancePopUp();
-    // });
+    document.getElementById("change-insurance").addEventListener('click', function() {
+      resetInsurance();
+    });
 
     document.getElementById("company-name").addEventListener('click', function() {
       document.getElementById("results").style.display = "none";
@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     populateProviders();
 
-    
+
 
     // loadResults();
     // makeAppointment();
