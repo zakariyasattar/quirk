@@ -722,6 +722,7 @@ input {
 
   position: relative;
   top: 15vh;
+  left: 60vw;
 
   border: 1px solid black;
   border-radius: 8px;
