@@ -9,7 +9,7 @@ export function search(insurance) {
 	localStorage.removeItem("cards");
 	localStorage.removeItem("data");
 	removeCards();
-	
+
 	if(document.getElementById("main").style.display != "none"){
 		var treatment = document.getElementById("treatment").value;
 		var zip_code = document.getElementById("zip-code").value;
@@ -32,7 +32,7 @@ export function search(insurance) {
 
 	if(treatment != "" && zip_code != "" && isValid(zip_code)) {
 		if(zip_code.length == 5) {
-			var rad = zipcodes.radius(parseInt(zip_code), 15);
+			var rad = zipcodes.radius(parseInt(zip_code), 25);
 			localStorage.removeItem("data");
 
 			console.log(rad);
@@ -139,7 +139,7 @@ function query(treatment, zips, hospitalName, zip) {
 		})
 		.catch(error => console.error(error));
 	});
-	
+
 }
 
 export function loadResults(first) {
