@@ -627,12 +627,12 @@ input {
 
 #appointment {
   position: absolute;
-  top: 10%;
+  top: 15%;
 }
 
 #appointment #user-data {
   width: 30%;
-  margin-left: 13vw;
+  margin-left: 11vw;
   float: left;
   font-family: "Work Sans", sans-serif;
   position: relative;
@@ -717,12 +717,13 @@ input {
 }
 
 #appointment #book-btn {
-  width: 20%;
-  height: 35px;
+
+  width: 23.5%;
+  height: 40px;
 
   position: relative;
-  top: 15vh;
-  left: 60vw;
+  top: 6vh;
+  margin-left: 11vw;
 
   border: 1px solid black;
   border-radius: 8px;
@@ -731,8 +732,17 @@ input {
 
 }
 
+#appointment #exit-book-appointment {
+  position: relative;
+  margin-left: 5vw;
+  top: 6.8vh;
+  width: 13.5%;
+  height: 25px;
+  cursor: pointer;
+}
+
 /* /////////////////////
-    MOBILE
+        MOBILE
 ///////////////////// */
 
 @media screen and (max-width: 800px) {
@@ -820,11 +830,71 @@ input {
 
   #appointment {
     width: 100vw;
+    margin-bottom: 100px;
   }
 
   #user-data {
     width: 90vw;
     position: absolute;
   }
+
+  #appointment {
+    position: absolute;
+    top: 10%;
+  }
+
+  #appointment #user-data {
+    width: 100%;
+    margin-left: 8vw;
+    float: left;
+    font-family: "Work Sans", sans-serif;
+    position: relative;
+  }
+
+  datedreamer-calendar {
+    width: 100%;
+    position: absolute;
+    right: 0px;
+    margin-top: 50px;
+    left: 80px;
+  }
+
+  #appointment #book-btn {
+    position: relative;
+    top: 40vh;
+    width: 85%;
+    margin-bottom: 10vh;
+    left: -20px;
+  }
+
+  .appointment-date {
+    position: relative;
+    top: 300px;
+    width: 100%;
+    right: 126%;
+  }
+
+  #appointment-availability .appointment-input-first {
+    position: relative;
+    /* right: ; */
+    width: 90vw;
+  }
+
+  #appointment-availability .appointment-input {
+    position: relative;
+    width: 90vw;
+  }
+
+  #appointment #exit-book-appointment {
+    width: 50vw;
+    position: relative;
+    top: .5%;
+  }
+
+  #appointment-hdr {
+    position: relative;
+    top: 20px;
+  }
+
 
 }
