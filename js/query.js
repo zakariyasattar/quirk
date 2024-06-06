@@ -2,6 +2,8 @@ import Swal from 'sweetalert2'
 import zipcodes from 'zipcodes';
 
 import { createResult, removeCards } from '/js/data.js'
+import { convertZipToCoord } from '/js/convertToCoord.js'
+import { sort } from 'd3';
 
 export function search(insurance) {
 	localStorage.removeItem("cards");
@@ -34,12 +36,12 @@ export function search(insurance) {
 			localStorage.removeItem("data");
 
 			console.log(rad);
-			query(treatment, rad, "");
+			query(treatment, rad, "", zip_code);
 		}
 		else {
 			// query by hospital if user selected hospital
 			localStorage.removeItem("data");
-			query(treatment, [], zip_code);
+			query(treatment, [], zip_code, "");
 		}
 	}
 	else {
@@ -57,8 +59,12 @@ function isValid(zip) {
 	return zip.length == 5;
 }
 
-function query(treatment, zips, hospitalName) {
+function query(treatment, zips, hospitalName, zip) {
 	treatment = treatment.split(" ");
+
+	if(zip == "") {
+		zip = "60712";
+	}
 
 	for(var i = 0; i < treatment.length; i++) {
 		treatment[i] = treatment[i].toUpperCase();
@@ -96,29 +102,44 @@ function query(treatment, zips, hospitalName) {
 		  };
 	}
 
-	fetch('.netlify/functions/getData', {
+	convertZipToCoord(zip).then(x => {
+		const sortParam = {
+			location: {
+				$near: {
+				$geometry: {
+					type: "Point",
+					coordinates: [x.lng, x.lat]
+					}
+				}
+			}
+		}
+
+		fetch('.netlify/functions/getData', {
 			method: 'POST',
 			body: JSON.stringify({
 				filter,
-				collectionName: collection
+				collectionName: collection,
+				sortParam
 			 }),
-	})
-	.then(response => response.json())
-	.then(data => {
-		localStorage.setItem("data", JSON.stringify(data));
+		})
+		.then(response => response.json())
+		.then(data => {
+			localStorage.setItem("data", JSON.stringify(data));
 
-		if(document.getElementById("main").style.display != "none") {
-			loadResults(true);
-		}
-		else {
-			loadResults(false);
-		}
-		document.getElementById("results-loading").style.display = "none";
+			if(document.getElementById("main").style.display != "none") {
+				loadResults(true);
+			}
+			else {
+				loadResults(false);
+			}
+			document.getElementById("results-loading").style.display = "none";
 
-		document.getElementById("main-loading").style.display = "none";
-		document.getElementById("main-default").style.display = "block";
-	})
-	.catch(error => console.error(error));
+			document.getElementById("main-loading").style.display = "none";
+			document.getElementById("main-default").style.display = "block";
+		})
+		.catch(error => console.error(error));
+	});
+	
 }
 
 export function loadResults(first) {

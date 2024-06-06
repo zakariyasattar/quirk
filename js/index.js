@@ -2,7 +2,7 @@ import axios from 'axios';
 
 import { search, loadResults } from '/js/query.js'
 import { openInsurancePopUp, removeCards } from '/js/data.js'
-import { convertZipToCoord } from '/js/convertToCoord.js'
+
 // import { makeAppointment } from '/js/bookAppt.js'
 
 document.addEventListener('DOMContentLoaded', function() {
@@ -82,24 +82,9 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     });
 
-    document.onkeydown = function checkKey(e) {
-        e = e || window.event;
-        var a = document.getElementsByTagName('a');
-
-        if (e.keyCode == '38') {
-
-        }
-        else if (e.keyCode == '40') {
-            // down arrow
-        }
-
-    }
-
     populateProviders();
 
-    convertZipToCoord("60646").then(x => {
-      console.log(x);
-    });
+    
 
     // loadResults();
     // makeAppointment();

@@ -1,5 +1,6 @@
 const api_key = 'bca4a1e1e7114d60801851d509542378';
 
+
 export async function convertZipToCoord(zip) {
   const api_url = 'https://api.opencagedata.com/geocode/v1/json';
 

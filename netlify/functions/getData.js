@@ -15,24 +15,40 @@ exports.handler = async function(event, context) {
         const collection = database.collection(collectionName);
 
         const filter = queryParams.filter || {};
+        const sortParam = queryParams.sortParam || {};
 
+        if (!sortParam || !sortParam.location || !sortParam.location.$near || !sortParam.location.$near.$geometry) {
+          throw new Error('Invalid sortParam');
+        }
+
+       const { type, coordinates } = sortParam.location.$near.$geometry;
         const pipeline = [
+          {
+              $geoNear: {
+                  near: {
+                      type: type,
+                      coordinates: coordinates
+                  },
+                  distanceField: "dist.calculated",
+                  spherical: true
+              }
+          },
           { $match: filter },
           {
-            $group: {
-              _id: "$provider",
-              documents: { $push: "$$ROOT" }
-            }
+              $group: {
+                  _id: "$provider",
+                  documents: { $push: "$$ROOT" }
+              }
           },
           {
-            $project: {
-              provider: "$_id",
-              documents: { $slice: ["$documents", 10] } // limit number of results per hospital
-            }
+              $project: {
+                  provider: "$_id",
+                  documents: { $slice: ["$documents", 10] } // limit number of results per hospital
+              }
           },
           { $unwind: "$documents" },
           { $replaceRoot: { newRoot: "$documents" } }
-        ];
+      ];
 
         const documents = await collection.aggregate(pipeline).toArray();
 
