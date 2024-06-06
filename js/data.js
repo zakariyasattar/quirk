@@ -1,6 +1,6 @@
 import Swal from 'sweetalert2'
 
-import { makeAppointment } from '/js/bookAppt.js'
+import { makeAppointment } from '/js/index.js'
 
 class Card {
   constructor(ref, plans, id) {

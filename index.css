@@ -625,11 +625,17 @@ input {
     MAKE APPOINTMENT
 ///////////////////// */
 
+#appointment {
+  position: absolute;
+  top: 10%;
+}
+
 #appointment #user-data {
   width: 30%;
   margin-left: 13vw;
   float: left;
   font-family: "Work Sans", sans-serif;
+  position: relative;
 }
 
 #appointment .user-data-input {

@@ -162,17 +162,18 @@ function _convertZipToCoord() {
           throw new Error('No results found for the given zip code');
         case 13:
           coordinates = data.results[0].geometry;
+          console.log(coordinates);
           return _context.abrupt("return", coordinates);
-        case 17:
-          _context.prev = 17;
+        case 18:
+          _context.prev = 18;
           _context.t0 = _context["catch"](2);
           console.error('Error:', _context.t0);
           throw _context.t0;
-        case 21:
+        case 22:
         case "end":
           return _context.stop();
       }
-    }, _callee, null, [[2, 17]]);
+    }, _callee, null, [[2, 18]]);
   }));
   return _convertZipToCoord.apply(this, arguments);
 }
@@ -201,7 +202,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "34375" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "52236" + '/');
   ws.onmessage = function (event) {
     checkedAssets = {};
     assetsToAccept = [];

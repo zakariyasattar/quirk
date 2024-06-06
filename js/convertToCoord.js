@@ -21,6 +21,7 @@ export async function convertZipToCoord(zip) {
       throw new Error('No results found for the given zip code');
     }
     const coordinates = data.results[0].geometry;
+    console.log(coordinates);
     return coordinates;
   } catch (error) {
     console.error('Error:', error);
