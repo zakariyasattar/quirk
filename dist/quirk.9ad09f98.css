@@ -741,6 +741,15 @@ input {
   cursor: pointer;
 }
 
+@media screen and (min-device-width: 1700px){
+  #main-img {
+    float:left;
+    position: relative;
+
+    left: 5%; 
+  }
+}
+
 /* /////////////////////
         MOBILE
 ///////////////////// */
@@ -898,5 +907,6 @@ input {
 
 
 }
+
 
 /*# sourceMappingURL=/quirk.9ad09f98.css.map */
